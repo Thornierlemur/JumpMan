@@ -45,8 +45,8 @@ def main_menu():
         button_1 = pygame.Rect(50, 100, 200, 50)
         button_2 = pygame.Rect(50, 200, 200, 50)
         button_3 = pygame.Rect(50, 300, 220, 50)
-        button_4 = pygame.Rect(50, 400, 260, 50)
-        button_5 = pygame.Rect(50, 500, 200, 50)
+        button_4 = pygame.Rect(300, 100, 260, 50)
+        button_5 = pygame.Rect(300, 200, 200, 50)
 
         # checking for collisions
         if button_1.collidepoint((mx, my)):
@@ -76,10 +76,10 @@ def main_menu():
         draw_text("Level Select", button_font, (0,0,0), screen, 50, 300)
 
         pygame.draw.rect(screen, (255,255,255), button_4)
-        draw_text("LeaderBoards", button_font, (0,0,0), screen, 50, 400)
+        draw_text("LeaderBoards", button_font, (0,0,0), screen, 300, 100)
 
         pygame.draw.rect(screen, (255,255,255), button_5)
-        draw_text("Exit", button_font, (0,0,0), screen, 50, 500)
+        draw_text("Exit", button_font, (0,0,0), screen, 300, 200)
 
         # must reset the click variable before every event
         click = False

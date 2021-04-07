@@ -264,6 +264,8 @@ def level1():
             if event.type == KEYDOWN:
                 if event.key == K_RIGHT:
                     moving_right = True
+                if event.key == K_ESCAPE:
+                    running = False
                 if event.key == K_LEFT:
                     moving_left = True
                 if event.key == K_UP:

@@ -77,10 +77,10 @@ def main_menu():
                 LevelSelect()
         if button_4.collidepoint((mx, my)):
             if click:
-                game()
+                LeaderBoards()
         if button_5.collidepoint((mx, my)):
             if click:
-                exit()
+                Exit()
 
         # renders the buttons
         pygame.draw.rect(screen, (255,255,255), button_1)
@@ -116,28 +116,7 @@ def main_menu():
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
 
-def game():
-    running = True
-    while running:
-        screen.fill((0,0,0))
-
-        draw_text('game', font, (255, 255,255), screen, 20, 20)
-
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                # if the user presses the 'esc' key the function ends
-                # and returns to wherever the function called it
-                if event.key == K_ESCAPE:
-                    running = False
-            
-            pygame.display.update()
-            mainClock.tick(60) 
-
-
-def exit():
+def Exit():
     pygame.quit()
     sys.exit()
 
@@ -364,6 +343,8 @@ def level1():
                     if air_timer < 6:
                         jump_sound.play()
                         player_y_momentum = -5
+                if event.key == K_s:
+                    SaveGame()
             if event.type == KEYUP:
                 if event.key == K_RIGHT:
                     moving_right = False

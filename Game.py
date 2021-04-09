@@ -77,10 +77,10 @@ def main_menu():
                 LevelSelect()
         if button_4.collidepoint((mx, my)):
             if click:
-                game()
+                LeaderBoards()
         if button_5.collidepoint((mx, my)):
             if click:
-                exit()
+                Exit()
 
         # renders the buttons
         pygame.draw.rect(screen, (255,255,255), button_1)
@@ -116,28 +116,7 @@ def main_menu():
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
 
-def game():
-    running = True
-    while running:
-        screen.fill((0,0,0))
-
-        draw_text('game', font, (255, 255,255), screen, 20, 20)
-
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                # if the user presses the 'esc' key the function ends
-                # and returns to wherever the function called it
-                if event.key == K_ESCAPE:
-                    running = False
-            
-            pygame.display.update()
-            mainClock.tick(60) 
-
-
-def exit():
+def Exit():
     pygame.quit()
     sys.exit()
 
@@ -228,16 +207,16 @@ def level1():
     # Loading the map
     game_map = load_map('map')
 
-    grass_image = pygame.image.load('grass.png')
+    grass_image = pygame.image.load('images/grass.png')
     TILE_SIZE = grass_image.get_width()
-    dirt_image = pygame.image.load('dirt.png')
+    dirt_image = pygame.image.load('images/dirt.png')
 
     # Sounds
-    jump_sound = pygame.mixer.Sound('jump.wav')
-    grass_sounds = [pygame.mixer.Sound('grass_0.wav'),pygame.mixer.Sound('grass_1.wav')]
+    jump_sound = pygame.mixer.Sound('audio/jump.wav')
+    grass_sounds = [pygame.mixer.Sound('audio/grass_0.wav'),pygame.mixer.Sound('audio/grass_1.wav')]
     grass_sounds[0].set_volume(0.2)
     grass_sounds[1].set_volume(0.2)
-    pygame.mixer.music.load('music.wav')
+    pygame.mixer.music.load('audio/music.wav')
     pygame.mixer.music.play(-1)
     grass_sound_timer = 0
 
@@ -364,6 +343,8 @@ def level1():
                     if air_timer < 6:
                         jump_sound.play()
                         player_y_momentum = -5
+                if event.key == K_s:
+                    SaveGame()
             if event.type == KEYUP:
                 if event.key == K_RIGHT:
                     moving_right = False
@@ -376,7 +357,8 @@ def level1():
         screen.blit(surf, (0, 0))
 
         pygame.display.update()
-        mainClock.tick(60) 
+        mainClock.tick(60)
+    pygame.mixer.music.fadeout(500)
 
 main_menu()
 

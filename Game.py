@@ -228,16 +228,16 @@ def level1():
     # Loading the map
     game_map = load_map('map')
 
-    grass_image = pygame.image.load('grass.png')
+    grass_image = pygame.image.load('images/grass.png')
     TILE_SIZE = grass_image.get_width()
-    dirt_image = pygame.image.load('dirt.png')
+    dirt_image = pygame.image.load('images/dirt.png')
 
     # Sounds
-    jump_sound = pygame.mixer.Sound('jump.wav')
-    grass_sounds = [pygame.mixer.Sound('grass_0.wav'),pygame.mixer.Sound('grass_1.wav')]
+    jump_sound = pygame.mixer.Sound('audio/jump.wav')
+    grass_sounds = [pygame.mixer.Sound('audio/grass_0.wav'),pygame.mixer.Sound('audio/grass_1.wav')]
     grass_sounds[0].set_volume(0.2)
     grass_sounds[1].set_volume(0.2)
-    pygame.mixer.music.load('music.wav')
+    pygame.mixer.music.load('audio/music.wav')
     pygame.mixer.music.play(-1)
     grass_sound_timer = 0
 
@@ -376,7 +376,8 @@ def level1():
         screen.blit(surf, (0, 0))
 
         pygame.display.update()
-        mainClock.tick(60) 
+        mainClock.tick(60)
+    pygame.mixer.music.fadeout(500)
 
 main_menu()
 

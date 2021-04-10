@@ -28,9 +28,6 @@ black = (0,0,0)
 Baby_Blue = (146,244,255)
 white = (255,255,255)
 
-# click variable to detect when the user clicks a button
-click = False
-
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
     textrect = textobj.get_rect()
@@ -48,6 +45,8 @@ def load_map(path):
     return game_map
 
 def main_menu():
+    # click variable to detect when the user clicks a button
+    click = False
     while True:
 
         screen.fill(Baby_Blue)
@@ -68,10 +67,12 @@ def main_menu():
         # checking for collisions
         if button_1.collidepoint((mx, my)):
             if click:
-                level1()
+                location = [0,0]
+                level1(location)
         if button_2.collidepoint((mx, my)):
             if click:
-                LoadGame()
+                user = "Isaac"
+                LoadGame(user)
         if button_3.collidepoint((mx, my)):
             if click:
                 LevelSelect()
@@ -124,15 +125,48 @@ def LevelSelect():
     pygame.quit()
     sys.exit()
 
+def LeaderBoards():
+    exit()
+
 # this function allows for me to save a game while playing
-def SaveGame():
-    with open("savegame", "wb") as f:
-        pickle.dump(foo, f)
+def SaveGame(user = "", location = [0,0], level=""):
+    # open a file named the username.
+    # If the file does not exist it will create it
+    # If the file already exists, it truncates the previous version
+    f = open(user+'.txt', "w+")
+
+    # Storing the values of the player position
+    x = str(location[0])
+    y = str(location[1])
+
+    f.write(x+','+y+','+level)
+
+    f.close()
+
 
 # This function allows for me to load a game
-def LoadGame():
-    with open("savegame", "rb") as f:
-        foo = pickle.load(f)
+def LoadGame(user = ""):
+    f = open(user+'.txt', "r")
+
+    # If the users save file exists
+    if f.mode == 'r':
+        contents = f.read()
+
+        text = contents.split(',')
+
+        # getting the location of the player
+        location = []
+        location.append(int(text[0]))
+        location.append(int(text[1]))
+
+        # Getting the level the player saved in
+        level = int(text[2])
+
+        if level == 1:
+            level1(location)
+
+
+
 
 def collision_test(rect, tiles):
     hit_list = []
@@ -190,7 +224,7 @@ def change_action(action_var,frame,new_value):
         frame = 0
     return action_var,frame
 
-def level1():
+def level1(locations = [0,0]):
     screen.fill(black)
 
     # like an image! (resolution)
@@ -205,7 +239,7 @@ def level1():
     player_flip = False
 
     # Loading the map
-    game_map = load_map('map')
+    game_map = load_map('map1')
 
     grass_image = pygame.image.load('images/grass.png')
     TILE_SIZE = grass_image.get_width()
@@ -231,10 +265,19 @@ def level1():
     moving_left = False
     player_y_momentum = 0
     air_timer = 0
-    true_scroll = [0,0]
 
-    # Collision!
-    player_rect = pygame.Rect(100,100,5,13)
+    true_scroll = [] # NOTE: This was changed from -> [0,0]
+    true_scroll.append(locations[0])
+    true_scroll.append(locations[1])
+
+    # Collision!, [left(x), top(y), width, height]
+    player_rect = pygame.Rect(100, 100, 5, 13)
+
+    if locations[0] == 0 and locations[1] == 0:
+        pass
+    else:
+        player_rect.x = locations[0]
+        player_rect.y = locations[1]
 
     running = True
     while running:
@@ -278,7 +321,7 @@ def level1():
             y += 1
 
         #Player movement
-        player_movement = [0, 0]
+        player_movement = [0,0] # NOTE: This was changed from -> [0,0]
         if moving_right:
             player_movement[0] += 2
         if moving_left:
@@ -320,6 +363,7 @@ def level1():
             player_frame = 0
         player_img_id = animation_database[player_action][player_frame]
         player_img = animation_frames[player_img_id]
+
         # render the player image onto the screen
         # (50,50) -> x, y (these values are inverted)
         display.blit(pygame.transform.flip(player_img,player_flip,False),(player_rect.x-scroll[0],player_rect.y-scroll[1]))
@@ -331,6 +375,11 @@ def level1():
             if event.type == KEYDOWN:
                 if event.key == K_w:
                     pygame.mixer.music.fadeout(1000)
+                if event.key == K_s:
+                    player_location = []
+                    player_location.append(int(player_rect.x))
+                    player_location.append(int(player_rect.y))
+                    SaveGame("Isaac", player_location, "1")
                 if event.key == K_e:
                     pygame.mixer.music.play(-1)
                 if event.key == K_RIGHT:
@@ -343,8 +392,6 @@ def level1():
                     if air_timer < 6:
                         jump_sound.play()
                         player_y_momentum = -5
-                if event.key == K_s:
-                    SaveGame()
             if event.type == KEYUP:
                 if event.key == K_RIGHT:
                     moving_right = False
@@ -361,7 +408,3 @@ def level1():
     pygame.mixer.music.fadeout(500)
 
 main_menu()
-
-
-##class Game:
-    

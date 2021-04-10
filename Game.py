@@ -67,7 +67,8 @@ def main_menu():
         # checking for collisions
         if button_1.collidepoint((mx, my)):
             if click:
-                level1([0,0])
+                location = [0,0]
+                level1(location)
         if button_2.collidepoint((mx, my)):
             if click:
                 user = "Isaac"
@@ -238,7 +239,7 @@ def level1(locations = [0,0]):
     player_flip = False
 
     # Loading the map
-    game_map = load_map('map2')
+    game_map = load_map('map1')
 
     grass_image = pygame.image.load('images/grass.png')
     TILE_SIZE = grass_image.get_width()
@@ -272,8 +273,11 @@ def level1(locations = [0,0]):
     # Collision!, [left(x), top(y), width, height]
     player_rect = pygame.Rect(100, 100, 5, 13)
 
-    player_rect.x = locations[0]
-    player_rect.y = locations[1]
+    if locations[0] == 0 and locations[1] == 0:
+        pass
+    else:
+        player_rect.x = locations[0]
+        player_rect.y = locations[1]
 
     running = True
     while running:

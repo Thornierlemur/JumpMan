@@ -43,15 +43,14 @@ def log_in_win():
     # Username was found 
     else:
       passw = file1.readline()
-      while True:
-        if(passw == password):
-          loginSuccessLabel = tk.Label(text = "-Login Successful-")
-          loginSuccessLabel.place(x = 110, y = 205)
-          break
-        else:
-          loginFailureLabel = tk.Label(text = "Incorect Password")
-          loginFailureLabel.place(x = 110, y = 205)
-          break
+
+      if(passw == password):
+        loginSuccessLabel = tk.Label(text = "-Login Successful-")
+        loginSuccessLabel.place(x = 110, y = 205)
+
+      else:
+        loginFailureLabel = tk.Label(text = "Incorect Password")
+        loginFailureLabel.place(x = 110, y = 205)
 
 
 

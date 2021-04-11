@@ -2,13 +2,27 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter.ttk import *
 from tkinter import *
+import time
 
 name = ""
+
+# Function to center Tkinter in center of the currently foucsed screen
+# Parameters root = window, w = width, h = hieght 
+# Example center_window(root,500,500)
+# Display a window in the center with a width and height of 500
+def center_window(root, w, h):
+        ws = root.winfo_screenwidth()
+        hs = root.winfo_screenheight()
+        x = (ws / 2) - (w / 2)
+        y = (hs / 2) - (h / 2)
+        root.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 # Creating window element and setting the title
 logWin = tk.Tk()
 logWin.title("Jump Man")
-logWin.geometry("600x400+468+132")
+#logWin.geometry("600x400+468+132")
+center_window(logWin,600,500)
+
 
 def log_in_win():
 
@@ -54,6 +68,9 @@ def log_in_win():
         name = userNameEnt.get()
         ExitWindowLabel = tk.Label(text = "-Please close the window-")
         ExitWindowLabel.place(x = 110, y = 250)
+        #time.sleep(3)
+        logWin.destroy()
+       
 
       else:
         loginFailureLabel = tk.Label(text = "Incorect Password")

@@ -50,12 +50,10 @@ def log_in_win():
       if(passw == password):
         loginSuccessLabel = tk.Label(text = "-Login Successful-")
         loginSuccessLabel.place(x = 110, y = 205)
-
         global name
         name = userNameEnt.get()
-
         ExitWindowLabel = tk.Label(text = "-Please close the window-")
-        ExitWindowLabel.place(x = 110, y = 305)
+        ExitWindowLabel.place(x = 110, y = 250)
 
       else:
         loginFailureLabel = tk.Label(text = "Incorect Password")
@@ -133,10 +131,9 @@ def create_account_win(event):
   newWin.mainloop
 
 def get_user_name():
-  size = len(name)
-  
-  if size == 0:
+  global name
+
+  if len(name) == 0:
     return ""
   else:
-    username = name[:size - 2]
-    return username
+    return name

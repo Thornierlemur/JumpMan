@@ -9,7 +9,7 @@ player = str(UserLogin.get_user_name())
 
 print(player)
 
-#if player == "":
-#    exit()
-#else:
-#    Game.main_menu(player)
+if player == "":
+    exit()
+else:
+    Game.main_menu(player)

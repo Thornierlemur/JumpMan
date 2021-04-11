@@ -195,7 +195,8 @@ def LeaderBoards():
     click = False
     running = True
 
-
+    file1 = open("Accounts.txt", "r")
+    
     while running:
 
         screen.fill(Baby_Blue)

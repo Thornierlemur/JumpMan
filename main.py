@@ -5,9 +5,11 @@ import Game
 
 UserLogin.log_in_win()
 
-name = str(UserLogin.get_user_name())
+player = str(UserLogin.get_user_name())
 
-if name == "":
-    exit()
-else:
-    Game.main_menu(name)
+print(player)
+
+#if player == "":
+#    exit()
+#else:
+#    Game.main_menu(player)

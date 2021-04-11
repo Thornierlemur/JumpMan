@@ -62,7 +62,7 @@ def main_menu(username):
         if button_1.collidepoint((mx, my)):
             if click:
                 location = [0,0]
-                level1(location)
+                level1(location, username)
         if button_2.collidepoint((mx, my)):
             if click:
                 LoadGame(username)
@@ -215,7 +215,7 @@ def change_action(action_var,frame,new_value):
         frame = 0
     return action_var,frame
 
-def level1(locations = [0,0]):
+def level1(locations = [0,0], username = ""):
     screen.fill(black)
 
     # like an image! (resolution)
@@ -371,7 +371,7 @@ def level1(locations = [0,0]):
                     player_location.append(int(player_rect.x))
                     player_location.append(int(player_rect.y))
                         
-                    SaveGame(self.username, player_location, "1")
+                    SaveGame(username, player_location, "1")
                 if event.key == K_e:
                     pygame.mixer.music.play(-1)
                 if event.key == K_RIGHT:

@@ -62,13 +62,13 @@ def main_menu(username):
         if button_1.collidepoint((mx, my)):
             if click:
                 location = [0,0]
-                level1(location, username)
+                level1(location, username, '1')
         if button_2.collidepoint((mx, my)):
             if click:
                 LoadGame(username)
         if button_3.collidepoint((mx, my)):
             if click:
-                LevelSelect()
+                LevelSelect(username)
         if button_4.collidepoint((mx, my)):
             if click:
                 LeaderBoards()
@@ -114,9 +114,81 @@ def Exit():
     pygame.quit()
     sys.exit()
 
-def LevelSelect():
-    pygame.quit()
-    sys.exit()
+def LevelSelect(username):
+    # click variable to detect when the user clicks a button
+    click = False
+    running = True
+    while running:
+
+        screen.fill(Baby_Blue)
+        draw_text('Level Select', font, black, screen, 20, 20)
+
+        # gets the x and y positions of the mouse and puts them
+        # into our variables mx, my
+        mx, my = pygame.mouse.get_pos()
+
+        # Creation of our buttons
+        # x, y, length, height
+        button_1 = pygame.Rect(50, 100, 150, 50)
+        button_2 = pygame.Rect(50, 200, 150, 50)
+        button_3 = pygame.Rect(50, 300, 150, 50)
+        button_4 = pygame.Rect(300, 100, 150, 50)
+        button_5 = pygame.Rect(300, 200, 150, 50)
+
+        # checking for collisions
+        if button_1.collidepoint((mx, my)):
+            if click:
+                location = [0,0]
+                level1(location, username, '1')
+        if button_2.collidepoint((mx, my)):
+            if click:
+                location = [0,0]
+                level1(location, username, '2')
+        if button_3.collidepoint((mx, my)):
+            if click:
+                location = [0,0]
+                level1(location, username, '3')
+        if button_4.collidepoint((mx, my)):
+            if click:
+                location = [0,0]
+                level1(location, username, '4')
+        if button_5.collidepoint((mx, my)):
+            if click:
+                location = [0,0]
+                level1(location, username, '5')
+
+        # renders the buttons
+        pygame.draw.rect(screen, (255,255,255), button_1)
+        draw_text("Level 1", button_font, black, screen, 50, 100)
+
+        pygame.draw.rect(screen, (255,255,255), button_2)
+        draw_text("Level 2", button_font, black, screen, 50, 200)
+
+        pygame.draw.rect(screen, (255,255,255), button_3)
+        draw_text("Level 3", button_font, black, screen, 50, 300)
+
+        pygame.draw.rect(screen, (255,255,255), button_4)
+        draw_text("Level 4", button_font, black, screen, 300, 100)
+
+        pygame.draw.rect(screen, (255,255,255), button_5)
+        draw_text("Level 5", button_font, black, screen, 300, 200)
+
+        # must reset the click variable before every event
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            # case when the user clicks onto a button
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                
+            pygame.display.update()
+            mainClock.tick(60) # framerate of the game
 
 def LeaderBoards():
     exit()
@@ -156,7 +228,15 @@ def LoadGame(user = ""):
         level = int(text[2])
 
         if level == 1:
-            level1(location, user)
+            level1(location, user, '1')
+        elif level == 2:
+            level1(location, user, '2')
+        elif level == 3:
+            level1(location, user, '3')
+        elif level == 4:
+            level1(location, user, '4')
+        else:
+            level1(location, user, '5')
 
 
 def collision_test(rect, tiles):
@@ -215,7 +295,7 @@ def change_action(action_var,frame,new_value):
         frame = 0
     return action_var,frame
 
-def level1(locations = [0,0], username = ""):
+def level1(locations = [0,0], username = "", level_num = '1'):
     screen.fill(black)
 
     # like an image! (resolution)
@@ -230,7 +310,7 @@ def level1(locations = [0,0], username = ""):
     player_flip = False
 
     # Loading the map
-    game_map = load_map('map3')
+    game_map = load_map('map'+level_num)
 
     grass_image = pygame.image.load('images/grass.png')
     TILE_SIZE = grass_image.get_width()
@@ -371,7 +451,7 @@ def level1(locations = [0,0], username = ""):
                     player_location.append(int(player_rect.x))
                     player_location.append(int(player_rect.y))
                         
-                    SaveGame(username, player_location, "1")
+                    SaveGame(username, player_location, level_num)
                 if event.key == K_e:
                     pygame.mixer.music.play(-1)
                 if event.key == K_RIGHT:

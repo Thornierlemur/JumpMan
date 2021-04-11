@@ -2,7 +2,9 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter.ttk import *
 from tkinter import *
-  
+
+global name = ""
+
 def log_in_win():
 
   # Define function for getting username and password from entries
@@ -42,6 +44,9 @@ def log_in_win():
       if(passw == password):
         loginSuccessLabel = tk.Label(text = "-Login Successful-")
         loginSuccessLabel.place(x = 110, y = 205)
+        name = username
+        ExitWindowLabel = tk.Label(text = "-Please close the window-")
+        ExitWindowLabel.place(x = 110, y = 305)
 
       else:
         loginFailureLabel = tk.Label(text = "Incorect Password")
@@ -123,3 +128,6 @@ def create_account_win(event):
   closeWinButton.place(x = 430, y = 360)
 
   newWin.mainloop
+
+def get_user_name():
+  return str(name)

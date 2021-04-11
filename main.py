@@ -3,8 +3,11 @@
 import UserLogin
 import Game
 
-UserLogin.log_in_win
+UserLogin.log_in_win()
 
-user = "isaac"
+name = str(UserLogin.get_user_name())
 
-Game.main_menu(user)
+if name == "":
+    exit()
+else:
+    Game.main_menu(name)

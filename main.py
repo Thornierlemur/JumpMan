@@ -3,4 +3,8 @@
 import UserLogin
 import Game
 
-user = UserLogin()
+UserLogin.log_in_win
+
+user = "isaac"
+
+Game.main_menu(user)

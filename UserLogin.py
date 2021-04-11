@@ -2,11 +2,6 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter.ttk import *
 from tkinter import *
-
- # Creating window element and setting the title
-logWin = tk.Tk()
-logWin.title("Jump Man")
-logWin.geometry("600x400+468+132")
   
 def log_in_win():
 
@@ -53,6 +48,10 @@ def log_in_win():
         loginFailureLabel.place(x = 110, y = 205)
 
 
+  # Creating window element and setting the title
+  logWin = tk.Tk()
+  logWin.title("Jump Man")
+  logWin.geometry("600x400+468+132")
 
   # Setting up font and window including labels, buttons, and entries
   fontStyle = tkFont.Font(family = "Lucida Grande", size = 25)
@@ -124,9 +123,3 @@ def create_account_win(event):
   closeWinButton.place(x = 430, y = 360)
 
   newWin.mainloop
-
-log_in_win()
-
-
-
-

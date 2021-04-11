@@ -156,7 +156,7 @@ def LoadGame(user = ""):
         level = int(text[2])
 
         if level == 1:
-            level1(location)
+            level1(location, user)
 
 
 def collision_test(rect, tiles):

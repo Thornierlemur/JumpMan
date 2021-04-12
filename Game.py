@@ -191,23 +191,69 @@ def LevelSelect(username):
             mainClock.tick(60) # framerate of the game
 
 def LeaderBoards():
-    # click variable to detect when the user clicks a button
+     # click variable to detect when the user clicks a button
     click = False
     running = True
 
-    file1 = open("Accounts.txt", "r")
-    
+    class playerAndScore:
+        def __init__(self, player, score):
+            self.player = player
+            self.score = score
+
+    # Array to hold classes for the top 5 players
+    playerArray = []
+
+    file1 = open("leaderboard.txt", "r")
+
+    # Read players and scores from file
+    while True:
+        tempName = file1.readline()
+        tempScore = file1.readline()
+
+        if not tempName or not tempScore:
+            break
+        tempPlayer = playerAndScore(tempName, tempScore)
+        playerArray.append(tempPlayer)
+
+
+
     while running:
 
         screen.fill(Baby_Blue)
-        draw_text('Leaderboards', font, black, screen, 250, 20)
+        draw_text('Leaderboards', font, black, screen, 250, 10)
 
-        mainWindow = pygame.Rect(150, 50, 300, 320)
+        mainWindow = pygame.Rect(150, 35, 300, 240)
         pygame.draw.rect(screen, (255, 255, 255), mainWindow)
 
         # gets the x and y positions of the mouse and puts them
         # into our variables mx, my
         mx, my = pygame.mouse.get_pos()
+
+        button_1 = pygame.Rect(175, 50, 150, 50)
+
+        pygame.draw.rect(screen, (255, 255, 255), button_1)
+        draw_text("1. " + playerArray[0].player.strip() + "-" + playerArray[0].score.strip(), button_font, black, screen, 175, 50)
+
+        button_2 = pygame.Rect(175, 90, 150, 50)
+
+        pygame.draw.rect(screen, (255, 255, 255), button_2)
+        draw_text("2. " + playerArray[1].player.strip() + "-" + playerArray[1].score.strip(), button_font, black, screen, 175, 90)
+
+        button_3 = pygame.Rect(175, 130, 150, 50)
+        pygame.draw.rect(screen, (255, 255, 255), button_3)
+        draw_text("3. " + playerArray[2].player.strip() + "-" + playerArray[2].score.strip(), button_font, black, screen, 175,130)
+
+        button_4 = pygame.Rect(175, 170, 150, 50)
+
+        pygame.draw.rect(screen, (255, 255, 255), button_4)
+        draw_text("4. " + playerArray[3].player.strip() + "-" + playerArray[3].score.strip(), button_font, black, screen, 175,170)
+
+        button_5 = pygame.Rect(175, 210, 150, 50)
+
+        pygame.draw.rect(screen, (255, 255, 255), button_5)
+        draw_text("5. " + playerArray[4].player.strip() + "-" + playerArray[4].score.strip(), button_font, black, screen, 175,210)
+
+
 
         # must reset the click variable before every event
         click = False
@@ -222,9 +268,9 @@ def LeaderBoards():
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
-                
+
             pygame.display.update()
-            mainClock.tick(60) # Framerate of the game
+            mainClock.tick(60)  # Framerate of the game
 
 # this function allows for me to save a game while playing
 def SaveGame(user = "", location = [0,0], level=""):

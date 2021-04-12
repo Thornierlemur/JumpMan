@@ -191,7 +191,40 @@ def LevelSelect(username):
             mainClock.tick(60) # framerate of the game
 
 def LeaderBoards():
-    exit()
+    # click variable to detect when the user clicks a button
+    click = False
+    running = True
+
+    file1 = open("Accounts.txt", "r")
+    
+    while running:
+
+        screen.fill(Baby_Blue)
+        draw_text('Leaderboards', font, black, screen, 250, 20)
+
+        mainWindow = pygame.Rect(150, 50, 300, 320)
+        pygame.draw.rect(screen, (255, 255, 255), mainWindow)
+
+        # gets the x and y positions of the mouse and puts them
+        # into our variables mx, my
+        mx, my = pygame.mouse.get_pos()
+
+        # must reset the click variable before every event
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            # case when the user clicks onto a button
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                
+            pygame.display.update()
+            mainClock.tick(60) # Framerate of the game
 
 # this function allows for me to save a game while playing
 def SaveGame(user = "", location = [0,0], level=""):

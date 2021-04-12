@@ -1,7 +1,7 @@
 ## This is a comment to see if everything is working correctly
 ## test commit joe
 import UserLogin
-import Game
+#import Game
 
 UserLogin.log_in_win()
 
@@ -12,4 +12,5 @@ print(player)
 if player == "":
     exit()
 else:
-    Game.main_menu(player)
+    import Game
+    Game.main_menu(player)  

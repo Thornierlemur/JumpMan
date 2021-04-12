@@ -10,12 +10,17 @@ pygame.display.set_caption('JumpMan')
 pygame.mixer.pre_init(44100, -16, 2, 512)
 
 # screen resolution
-res = (600, 400)
+res = (800, 600)
 screen = pygame.display.set_mode(res, 0, 32)
 
 # Fonts used
 font = pygame.font.SysFont(None, 20)
-button_font = pygame.font.SysFont(None, 50)
+#button_font = pygame.font.SysFont(None, 50)
+button_font = pygame.font.Font("fonts/ka1.ttf", 30)
+title_font = pygame.font.Font("fonts/ka1.ttf", 50)
+
+# Load image used for login background, can be any image
+my_image = pygame.image.load('images/image2.png')
 
 # Colors
 black = (0,0,0)
@@ -43,8 +48,11 @@ def main_menu(username):
     click = False
     while True:
 
-        screen.fill(Baby_Blue)
+        #screen.fill(Baby_Blue)
+        # To change background from a color to image
+        screen.blit(my_image, (0, 0))
         draw_text('main menu', font, black, screen, 20, 20)
+        draw_text('JumpMan', title_font, black, screen, 250, 20)
 
         # gets the x and y positions of the mouse and puts them
         # into our variables mx, my
@@ -52,11 +60,11 @@ def main_menu(username):
 
         # Creation of our buttons
         # x, y, length, height
-        button_1 = pygame.Rect(50, 100, 200, 50)
-        button_2 = pygame.Rect(50, 200, 200, 50)
-        button_3 = pygame.Rect(50, 300, 220, 50)
-        button_4 = pygame.Rect(300, 100, 260, 50)
-        button_5 = pygame.Rect(300, 200, 200, 50)
+        button_1 = pygame.Rect(50, 100, 200, 40) # old 50,100,200,50
+        button_2 = pygame.Rect(50, 200, 100, 40) # old 50,200,200,50
+        button_3 = pygame.Rect(50, 300, 280, 40) # old 50,300,220,50
+        button_4 = pygame.Rect(50, 400, 310, 40) # old 300,100,260,50
+        button_5 = pygame.Rect(50, 500, 100, 40) # old 300,200,200,50
 
         # checking for collisions
         if button_1.collidepoint((mx, my)):
@@ -77,20 +85,21 @@ def main_menu(username):
                 Exit()
 
         # renders the buttons
-        pygame.draw.rect(screen, (255,255,255), button_1)
+
+        #pygame.draw.rect(screen, (255,255,255), button_1)
         draw_text("New Game", button_font, (0,0,0), screen, 50, 100)
 
-        pygame.draw.rect(screen, (255,255,255), button_2)
+        #pygame.draw.rect(screen, (255,255,255), button_2)
         draw_text("Load", button_font, (0,0,0), screen, 50, 200)
 
-        pygame.draw.rect(screen, (255,255,255), button_3)
+        #pygame.draw.rect(screen, (255,255,255), button_3)
         draw_text("Level Select", button_font, (0,0,0), screen, 50, 300)
 
-        pygame.draw.rect(screen, (255,255,255), button_4)
-        draw_text("LeaderBoards", button_font, (0,0,0), screen, 300, 100)
+        #pygame.draw.rect(screen, (255,255,255), button_4)
+        draw_text("LeaderBoards", button_font, (0,0,0), screen, 50, 400) # old 300,100
 
-        pygame.draw.rect(screen, (255,255,255), button_5)
-        draw_text("Exit", button_font, (0,0,0), screen, 300, 200)
+        #pygame.draw.rect(screen, (255,255,255), button_5)
+        draw_text("Exit", button_font, (0,0,0), screen, 50, 500) # old 300,200
 
         # must reset the click variable before every event
         click = False
@@ -120,7 +129,9 @@ def LevelSelect(username):
     running = True
     while running:
 
-        screen.fill(Baby_Blue)
+        #screen.fill(Baby_Blue)
+        screen.blit(my_image, (0, 0))
+
         draw_text('Level Select', font, black, screen, 20, 20)
 
         # gets the x and y positions of the mouse and puts them
@@ -129,11 +140,11 @@ def LevelSelect(username):
 
         # Creation of our buttons
         # x, y, length, height
-        button_1 = pygame.Rect(50, 100, 150, 50)
-        button_2 = pygame.Rect(50, 200, 150, 50)
-        button_3 = pygame.Rect(50, 300, 150, 50)
-        button_4 = pygame.Rect(300, 100, 150, 50)
-        button_5 = pygame.Rect(300, 200, 150, 50)
+        button_1 = pygame.Rect(50, 100, 160, 40) # old 50,100,150,50
+        button_2 = pygame.Rect(50, 200, 160, 40) # old 50,200,150,50
+        button_3 = pygame.Rect(50, 300, 160, 40) # old 50,300,150,50
+        button_4 = pygame.Rect(50, 400, 160, 40) # old 300,100,150,50
+        button_5 = pygame.Rect(50, 500, 160, 40) # old 300,200,150,50
 
         # checking for collisions
         if button_1.collidepoint((mx, my)):
@@ -158,20 +169,20 @@ def LevelSelect(username):
                 level1(location, username, '5')
 
         # renders the buttons
-        pygame.draw.rect(screen, (255,255,255), button_1)
+        #pygame.draw.rect(screen, (255,255,255), button_1)
         draw_text("Level 1", button_font, black, screen, 50, 100)
 
-        pygame.draw.rect(screen, (255,255,255), button_2)
+        #pygame.draw.rect(screen, (255,255,255), button_2)
         draw_text("Level 2", button_font, black, screen, 50, 200)
 
-        pygame.draw.rect(screen, (255,255,255), button_3)
+        #pygame.draw.rect(screen, (255,255,255), button_3)
         draw_text("Level 3", button_font, black, screen, 50, 300)
 
-        pygame.draw.rect(screen, (255,255,255), button_4)
-        draw_text("Level 4", button_font, black, screen, 300, 100)
+        #pygame.draw.rect(screen, (255,255,255), button_4)
+        draw_text("Level 4", button_font, black, screen, 50, 400) # old 300,100
 
-        pygame.draw.rect(screen, (255,255,255), button_5)
-        draw_text("Level 5", button_font, black, screen, 300, 200)
+        #pygame.draw.rect(screen, (255,255,255), button_5)
+        draw_text("Level 5", button_font, black, screen, 50, 500) # old 300,200
 
         # must reset the click variable before every event
         click = False
@@ -218,12 +229,12 @@ def LeaderBoards():
 
 
     while running:
-
-        screen.fill(Baby_Blue)
+            #screen.fill(Baby_Blue)
+        screen.blit(my_image, (0, 0))
         draw_text('Leaderboards', font, black, screen, 250, 10)
 
         mainWindow = pygame.Rect(150, 35, 300, 240)
-        pygame.draw.rect(screen, (255, 255, 255), mainWindow)
+        #pygame.draw.rect(screen, (255, 255, 255), mainWindow)
 
         # gets the x and y positions of the mouse and puts them
         # into our variables mx, my
@@ -231,26 +242,26 @@ def LeaderBoards():
 
         button_1 = pygame.Rect(175, 50, 150, 50)
 
-        pygame.draw.rect(screen, (255, 255, 255), button_1)
+        #pygame.draw.rect(screen, (255, 255, 255), button_1)
         draw_text("1. " + playerArray[0].player.strip() + "-" + playerArray[0].score.strip(), button_font, black, screen, 175, 50)
 
         button_2 = pygame.Rect(175, 90, 150, 50)
 
-        pygame.draw.rect(screen, (255, 255, 255), button_2)
+        #pygame.draw.rect(screen, (255, 255, 255), button_2)
         draw_text("2. " + playerArray[1].player.strip() + "-" + playerArray[1].score.strip(), button_font, black, screen, 175, 90)
 
         button_3 = pygame.Rect(175, 130, 150, 50)
-        pygame.draw.rect(screen, (255, 255, 255), button_3)
+        #pygame.draw.rect(screen, (255, 255, 255), button_3)
         draw_text("3. " + playerArray[2].player.strip() + "-" + playerArray[2].score.strip(), button_font, black, screen, 175,130)
 
         button_4 = pygame.Rect(175, 170, 150, 50)
 
-        pygame.draw.rect(screen, (255, 255, 255), button_4)
+        #pygame.draw.rect(screen, (255, 255, 255), button_4)
         draw_text("4. " + playerArray[3].player.strip() + "-" + playerArray[3].score.strip(), button_font, black, screen, 175,170)
 
         button_5 = pygame.Rect(175, 210, 150, 50)
 
-        pygame.draw.rect(screen, (255, 255, 255), button_5)
+        #pygame.draw.rect(screen, (255, 255, 255), button_5)
         draw_text("5. " + playerArray[4].player.strip() + "-" + playerArray[4].score.strip(), button_font, black, screen, 175,210)
 
 

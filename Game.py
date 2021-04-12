@@ -21,6 +21,7 @@ title_font = pygame.font.Font("fonts/ka1.ttf", 50)
 
 # Load image used for login background, can be any image
 my_image = pygame.image.load('images/image2.png')
+ldr_image = pygame.image.load('images/image2.jpg')
 
 # Colors
 black = (0,0,0)
@@ -130,7 +131,7 @@ def LevelSelect(username):
     while running:
 
         #screen.fill(Baby_Blue)
-        screen.blit(my_image, (0, 0))
+        screen.blit(ldr_image, (0, 0))
 
         draw_text('Level Select', font, black, screen, 20, 20)
 
@@ -229,9 +230,9 @@ def LeaderBoards():
 
 
     while running:
-            #screen.fill(Baby_Blue)
-        screen.blit(my_image, (0, 0))
-        draw_text('Leaderboards', font, black, screen, 250, 10)
+        #screen.fill(Baby_Blue)
+        screen.blit(ldr_image, (0, 0))
+        draw_text('Leaderboards', title_font, black, screen, 136, 20)
 
         mainWindow = pygame.Rect(150, 35, 300, 240)
         #pygame.draw.rect(screen, (255, 255, 255), mainWindow)
@@ -243,26 +244,43 @@ def LeaderBoards():
         button_1 = pygame.Rect(175, 50, 150, 50)
 
         #pygame.draw.rect(screen, (255, 255, 255), button_1)
-        draw_text("1. " + playerArray[0].player.strip() + "-" + playerArray[0].score.strip(), button_font, black, screen, 175, 50)
+        
+        #draw_text("1. " + playerArray[0].player.strip() + "-" + playerArray[0].score.strip(), button_font, black, screen, 150, 150) # old 175,50
+        
+        draw_text("1. " + playerArray[0].player.strip(), button_font, black, screen, 136, 150) # old 175,50
+        draw_text(playerArray[0].score.strip(), button_font, black, screen, 540, 150)
+
 
         button_2 = pygame.Rect(175, 90, 150, 50)
 
         #pygame.draw.rect(screen, (255, 255, 255), button_2)
-        draw_text("2. " + playerArray[1].player.strip() + "-" + playerArray[1].score.strip(), button_font, black, screen, 175, 90)
+        #draw_text("2. " + playerArray[1].player.strip() + "-" + playerArray[1].score.strip(), button_font, black, screen, 150, 200) # old 175,50
 
-        button_3 = pygame.Rect(175, 130, 150, 50)
+        draw_text("2. " + playerArray[1].player.strip(), button_font, black, screen, 136, 200) # old 175,50
+        draw_text(playerArray[1].score.strip(), button_font, black, screen, 540, 200)
+
+
+        #button_3 = pygame.Rect(175, 130, 150, 50)
         #pygame.draw.rect(screen, (255, 255, 255), button_3)
-        draw_text("3. " + playerArray[2].player.strip() + "-" + playerArray[2].score.strip(), button_font, black, screen, 175,130)
+        #draw_text("3. " + playerArray[2].player.strip() + "-" + playerArray[2].score.strip(), button_font, black, screen, 150,250) # old 175,50
 
-        button_4 = pygame.Rect(175, 170, 150, 50)
+        draw_text("3. " + playerArray[2].player.strip(), button_font, black, screen, 136, 250) # old 175,50
+        draw_text(playerArray[2].score.strip(), button_font, black, screen, 540, 250)
+
+        #button_4 = pygame.Rect(175, 170, 150, 50)
 
         #pygame.draw.rect(screen, (255, 255, 255), button_4)
-        draw_text("4. " + playerArray[3].player.strip() + "-" + playerArray[3].score.strip(), button_font, black, screen, 175,170)
+        #draw_text("4. " + playerArray[3].player.strip() + "-" + playerArray[3].score.strip(), button_font, black, screen, 150,300) # old 175,50
+        draw_text("4. " + playerArray[3].player.strip(), button_font, black, screen, 136, 300) # old 175,50
+        draw_text(playerArray[3].score.strip(), button_font, black, screen, 540, 300)
 
-        button_5 = pygame.Rect(175, 210, 150, 50)
+        #button_5 = pygame.Rect(175, 210, 150, 50)
 
         #pygame.draw.rect(screen, (255, 255, 255), button_5)
-        draw_text("5. " + playerArray[4].player.strip() + "-" + playerArray[4].score.strip(), button_font, black, screen, 175,210)
+        #draw_text("5. " + playerArray[4].player.strip() + "-" + playerArray[4].score.strip(), button_font, black, screen, 150,350) # old 175,50
+
+        draw_text("5. " + playerArray[4].player.strip(), button_font, black, screen, 136, 350) # old 175,50
+        draw_text(playerArray[4].score.strip(), button_font, black, screen, 540, 350)
 
 
         # must reset the click variable before every event

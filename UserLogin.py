@@ -21,7 +21,7 @@ def center_window(root, w, h):
 logWin = tk.Tk()
 logWin.title("Jump Man")
 #logWin.geometry("600x400+468+132")
-center_window(logWin,600,500)
+center_window(logWin,600,300)
 
 
 def log_in_win():
@@ -85,14 +85,14 @@ def log_in_win():
   labelP = tk.Label(text = "Password:")
   labelP.place(x = 20, y = 130)
   acctButton = tk.Button(text = "Create an account", width = 20, bg = "lightblue")
-  acctButton.place(x = 430, y = 360)
+  acctButton.place(x = 430, y = 200)
   acctButton.bind("<Button-1>", create_account_win)
   loginButton = tk.Button(text = "Sign in", width = 10, bg = "orange")
   loginButton.place(x = 20, y = 200)
   loginButton.bind("<Button-1>", sign_in)
-  userNameEnt = tk.Entry(text = "Username", width = 16, font = fontStyle)
+  userNameEnt = tk.Entry(text = "Username", width = 12, font = fontStyle)
   userNameEnt.place(x = 20, y = 80)
-  passEnt = tk.Entry(width = 10, font = fontStyle)
+  passEnt = tk.Entry(width = 12, font = fontStyle)
   passEnt.place(x = 20, y = 150)
 
   # running the window (doesn't work without this)
@@ -120,12 +120,14 @@ def create_account_win(event):
 
       successLabel = tk.Label(newWin, text = "Account Created Successfully")
       successLabel.place(x = 20, y = 230)
+      newWin.destroy()
       makeAcctButton.destroy()
     
   #New window for account creation which goes on top of login window
   newWin = Toplevel(logWin)
   newWin.title("Create an Account")
-  newWin.geometry("600x400+468+132")
+  center_window(newWin,600,300)
+
 
   # Setting up font and window including labels, buttons, and entries
   fontStyle = tkFont.Font(family = "Lucida Grande", size = 25)
@@ -135,9 +137,9 @@ def create_account_win(event):
   labelU.place(x = 20, y = 60)
   labelP = tk.Label(newWin, text = "Password:")
   labelP.place(x = 20, y = 130)
-  createNameEnt = tk.Entry(newWin, text = "Username", width = 16, font = fontStyle)
+  createNameEnt = tk.Entry(newWin, text = "Username", width = 12, font = fontStyle)
   createNameEnt.place(x = 20, y = 80)
-  createPassEnt = tk.Entry(newWin, width = 10, font = fontStyle)
+  createPassEnt = tk.Entry(newWin, width = 12, font = fontStyle)
   createPassEnt.place(x = 20, y = 150)
   makeAcctButton = tk.Button(newWin, text = "Create Account", width = 14, bg = "orange")
   makeAcctButton.place(x = 20, y = 200)

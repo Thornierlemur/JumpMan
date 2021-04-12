@@ -21,6 +21,7 @@ title_font = pygame.font.Font("fonts/ka1.ttf", 50)
 
 # Load image used for login background, can be any image
 my_image = pygame.image.load('images/image2.png')
+ldr_image = pygame.image.load('images/image2.jpg')
 
 # Colors
 black = (0,0,0)
@@ -130,7 +131,7 @@ def LevelSelect(username):
     while running:
 
         #screen.fill(Baby_Blue)
-        screen.blit(my_image, (0, 0))
+        screen.blit(ldr_image, (0, 0))
 
         draw_text('Level Select', font, black, screen, 20, 20)
 
@@ -230,7 +231,7 @@ def LeaderBoards():
 
     while running:
         #screen.fill(Baby_Blue)
-        screen.blit(my_image, (0, 0))
+        screen.blit(ldr_image, (0, 0))
         draw_text('Leaderboards', title_font, black, screen, 136, 20)
 
         mainWindow = pygame.Rect(150, 35, 300, 240)

@@ -231,7 +231,7 @@ def LeaderBoards():
     while running:
         #screen.fill(Baby_Blue)
         screen.blit(my_image, (0, 0))
-        draw_text('Leaderboards', title_font, black, screen, 150, 20)
+        draw_text('Leaderboards', title_font, black, screen, 136, 20)
 
         mainWindow = pygame.Rect(150, 35, 300, 240)
         #pygame.draw.rect(screen, (255, 255, 255), mainWindow)
@@ -246,8 +246,8 @@ def LeaderBoards():
         
         #draw_text("1. " + playerArray[0].player.strip() + "-" + playerArray[0].score.strip(), button_font, black, screen, 150, 150) # old 175,50
         
-        draw_text("1. " + playerArray[0].player.strip(), button_font, black, screen, 150, 150) # old 175,50
-        draw_text(playerArray[0].score.strip(), button_font, black, screen, 550, 150)
+        draw_text("1. " + playerArray[0].player.strip(), button_font, black, screen, 136, 150) # old 175,50
+        draw_text(playerArray[0].score.strip(), button_font, black, screen, 540, 150)
 
 
         button_2 = pygame.Rect(175, 90, 150, 50)
@@ -255,31 +255,31 @@ def LeaderBoards():
         #pygame.draw.rect(screen, (255, 255, 255), button_2)
         #draw_text("2. " + playerArray[1].player.strip() + "-" + playerArray[1].score.strip(), button_font, black, screen, 150, 200) # old 175,50
 
-        draw_text("2. " + playerArray[1].player.strip(), button_font, black, screen, 150, 200) # old 175,50
-        draw_text(playerArray[1].score.strip(), button_font, black, screen, 550, 200)
+        draw_text("2. " + playerArray[1].player.strip(), button_font, black, screen, 136, 200) # old 175,50
+        draw_text(playerArray[1].score.strip(), button_font, black, screen, 540, 200)
 
 
         #button_3 = pygame.Rect(175, 130, 150, 50)
         #pygame.draw.rect(screen, (255, 255, 255), button_3)
         #draw_text("3. " + playerArray[2].player.strip() + "-" + playerArray[2].score.strip(), button_font, black, screen, 150,250) # old 175,50
 
-        draw_text("3. " + playerArray[2].player.strip(), button_font, black, screen, 150, 250) # old 175,50
-        draw_text(playerArray[2].score.strip(), button_font, black, screen, 550, 250)
+        draw_text("3. " + playerArray[2].player.strip(), button_font, black, screen, 136, 250) # old 175,50
+        draw_text(playerArray[2].score.strip(), button_font, black, screen, 540, 250)
 
         #button_4 = pygame.Rect(175, 170, 150, 50)
 
         #pygame.draw.rect(screen, (255, 255, 255), button_4)
         #draw_text("4. " + playerArray[3].player.strip() + "-" + playerArray[3].score.strip(), button_font, black, screen, 150,300) # old 175,50
-        draw_text("4. " + playerArray[3].player.strip(), button_font, black, screen, 150, 300) # old 175,50
-        draw_text(playerArray[3].score.strip(), button_font, black, screen, 550, 300)
+        draw_text("4. " + playerArray[3].player.strip(), button_font, black, screen, 136, 300) # old 175,50
+        draw_text(playerArray[3].score.strip(), button_font, black, screen, 540, 300)
 
         #button_5 = pygame.Rect(175, 210, 150, 50)
 
         #pygame.draw.rect(screen, (255, 255, 255), button_5)
         #draw_text("5. " + playerArray[4].player.strip() + "-" + playerArray[4].score.strip(), button_font, black, screen, 150,350) # old 175,50
 
-        draw_text("5. " + playerArray[4].player.strip(), button_font, black, screen, 150, 350) # old 175,50
-        draw_text(playerArray[4].score.strip(), button_font, black, screen, 550, 350)
+        draw_text("5. " + playerArray[4].player.strip(), button_font, black, screen, 136, 350) # old 175,50
+        draw_text(playerArray[4].score.strip(), button_font, black, screen, 540, 350)
 
 
 

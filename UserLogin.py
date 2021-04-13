@@ -39,7 +39,7 @@ def log_in_win():
     password = password + "\n"
 
     # Open accounts file for read only
-    file1 = open("Accounts.txt", "r")
+    file1 = open("accounts\Accounts.txt", "r")
 
     # Read through the whole file for the username, if the username is not found readname is set to empty string
     while True:
@@ -108,7 +108,7 @@ def create_account_win(event):
   def account_creation(event):
 
     # Open the accounts file to append username and password to the end
-    file1 = open("Accounts.txt", "a")
+    file1 = open("accounts\Accounts.txt", "a")
     name = createNameEnt.get()
     passw = createPassEnt.get()
 

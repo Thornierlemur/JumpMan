@@ -318,10 +318,11 @@ def SaveGame(user = "", location = [0,0], level=""):
 
 # This function allows for me to load a game
 def LoadGame(user = ""):
-    f = open(user+'.txt', "r")
-
-    # If the users save file exists
-    if f.mode == 'r':
+    # Need to find a way to see if a file exists or not.
+    # If it does not exist then we can do nothing 
+    # But if it does exist then we load the users saved file
+    try:
+        f = open(user+'.txt', "r+")
         contents = f.read()
 
         text = contents.split(',')
@@ -344,6 +345,11 @@ def LoadGame(user = ""):
             level1(location, user, '4')
         else:
             level1(location, user, '5')
+    except IOError:
+        return
+    finally:
+        f.close()
+
 
 
 def collision_test(rect, tiles):

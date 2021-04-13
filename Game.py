@@ -316,7 +316,11 @@ def LeaderBoards():
             pygame.display.update()
             mainClock.tick(60)  # Framerate of the game
 
-# this function allows for me to save a game while playing
+# Intent: this function allows for me to save a game while playing
+# Preconditions: user = "". holds the users username
+#                location = [0,0]. Holds the users location
+#                level = "". Holds the level of the player
+# Poscondition: the game is saved to a file
 def SaveGame(user = "", location = [0,0], level=""):
     # open a file named the username.
     # If the file does not exist it will create it

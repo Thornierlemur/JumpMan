@@ -28,12 +28,19 @@ black = (0,0,0)
 Baby_Blue = (146,244,255)
 white = (255,255,255)
 
+# Intent: Helper function that helps the programmer draw text
+#         to the screen.
+# Preconditions: All variables are passed legal data
+#                when the function is called
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
+# Intent: Helper function to load the map.txt file into the game
+# Precondition: path is always given a .txt file named map(integer value here)
+# Postcondition: The Function returns the map of the level in a 2d array format
 def load_map(path):
     f = open(path + '.txt', 'r')
     data = f.read()
@@ -44,6 +51,9 @@ def load_map(path):
         game_map.append(list(row))
     return game_map
 
+# Intent: The user is shown the main menu of the game
+# Precondition: username = a legal username that is given from
+#               the login window when the user logs into their account
 def main_menu(username):
     # click variable to detect when the user clicks a button
     click = False
@@ -120,10 +130,14 @@ def main_menu(username):
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
 
+# Intent: Closes the game window
 def Exit():
     pygame.quit()
     sys.exit()
 
+# Intent: Shows a GUI of the available levels that the player can play
+# Precondition: username = a legal username that is given from
+#               the login window when the user logs into their account
 def LevelSelect(username):
     # click variable to detect when the user clicks a button
     click = False
@@ -202,6 +216,8 @@ def LevelSelect(username):
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
 
+# Intent: Shows the user logged in the leaderboards for the entire game.
+#         The leaderboards contains the top 5 players and their total scores.
 def LeaderBoards():
      # click variable to detect when the user clicks a button
     click = False
@@ -316,7 +332,9 @@ def SaveGame(user = "", location = [0,0], level=""):
     f.close()
 
 
-# This function allows for me to load a game
+# Intent: This helper function allows for the programmer to load a game
+# Precondition: user = "", default case in case the programmer by accident forgets
+#               to pass the username.
 def LoadGame(user = ""):
     # Need to find a way to see if a file exists or not.
     # If it does not exist then we can do nothing 
@@ -351,7 +369,7 @@ def LoadGame(user = ""):
         f.close()
 
 
-
+# Intent: Helper function that tests for collisions of the player
 def collision_test(rect, tiles):
     hit_list = []
     for tile in tiles:
@@ -359,6 +377,8 @@ def collision_test(rect, tiles):
             hit_list.append(tile)
     return hit_list
 
+# Intent: Helper function to make sure that when the user moves they are colliding with the correct
+#         "tiles"
 def move(rect, movement, tiles):
     collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
     rect.x += movement[0]
@@ -386,6 +406,9 @@ def move(rect, movement, tiles):
 global animation_frames
 animation_frames = {}
 
+# Intent: Helper function to load in the character animations
+# Preconditions: path, frame_durations are always passed legal values that correspond
+#                to each of the specific animations for the character
 def load_animation(path, frame_durations):
     global animation_frames
     animation_name = path.split('/')[-1]
@@ -402,12 +425,25 @@ def load_animation(path, frame_durations):
         n += 1
     return animation_frame_data
 
+# Intent: Helper function that helps the programmer transition the players current animations
+# Preconditions: action_var = the previous action the player is doing
+#                new_value = the current action the player is doing
+#                frame = the frame the animation is currently in
+#
+# Postcondition: Returns the animation the player is currently in and the frame that animation is in
 def change_action(action_var,frame,new_value):
     if action_var != new_value:
         action_var = new_value
         frame = 0
     return action_var,frame
 
+# Intent: Creates the level in which the player is currently in
+# Preconditions: locations = [0,0]. is the location of the player
+#                username = "". is the name of the user
+#                level_num = '1'. is the level the user is in.
+#          All passed variables have a default setting so that if the programmer
+#          forgets to pass something the function catches it and makes sure the function
+#          does not crash.
 def level1(locations = [0,0], username = "", level_num = '1'):
     screen.fill(black)
 
@@ -565,7 +601,8 @@ def level1(locations = [0,0], username = "", level_num = '1'):
             pass
         elif level_num == '5':
             pass
-
+        
+        # Catches what buttons the player presses and performs those actions
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()

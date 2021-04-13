@@ -24,16 +24,17 @@ logWin.title("Jump Man")
 center_window(logWin,600,300)
 
 
+# Building the appearance of the log in window before it appears. Also contains the function that handles
+# how the user signs in
 def log_in_win():
 
-  # Define function for getting username and password from entries
+  # Define function for getting username and password from entries and handling errors that may occur
   def sign_in(event):
 
     username = userNameEnt.get()
     password = passEnt.get()
     
-    # For some reason python adds a newline character to the end of a line when you read from a file
-    # so I need to add a newline character to the strings obtained from the entry
+    # Appends new line character to the end of variables to match structure on file
     username = username + "\n"
     password = password + "\n"
 
@@ -99,8 +100,11 @@ def log_in_win():
   logWin.mainloop()
 
 
+# Building the appearance of the log in window before it appears. Also contains the function that handles
+# how the user creates their account
 def create_account_win(event):
 
+  # Handles writing to the file when a new account is created, also possible input errors that might occur
   def account_creation(event):
 
     # Open the accounts file to append username and password to the end

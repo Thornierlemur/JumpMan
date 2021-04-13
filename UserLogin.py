@@ -112,9 +112,17 @@ def create_account_win(event):
     name = createNameEnt.get()
     passw = createPassEnt.get()
 
+    if len(name) > 15:
+      tooLongLabel = tk.Label(newWin, text = "Username too long. 15 chars max")
+      tooLongLabel.place(x = 130, y = 202)
+
+    elif len(passw) > 15:
+      tooLongLabel = tk.Label(newWin, text = "Password too long. 15 chars max")
+      tooLongLabel.place(x = 130, y = 202)
+
     # Condition for if create account is clicked with one or both entries empty
-    if(name == "" or passw == ""):
-      entryEmpty = tk.Label(newWin, text = "Please fill both entries.")
+    elif(name == "" or passw == ""):
+      entryEmpty = tk.Label(newWin, text = "------Please fill both entries------")
       entryEmpty.place(x = 130, y = 202)
 
     # Creation Success Condition

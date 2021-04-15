@@ -328,7 +328,7 @@ def SaveGame(user = "", location = [0,0], level=""):
     # If the file does not exist it will create it
     # If the file already exists, it truncates the previous version
     #f = open(user + '.txt', 'w+')
-    f = open("accounts/savefiles" + user + ".txt", "w+")
+    f = open("accounts/savefiles/" + user + ".txt", "w+")
     # Storing the values of the player position
     x = str(location[0])
     y = str(location[1])
@@ -348,10 +348,10 @@ def LoadGame(user = ""):
 
     #f = open(user+'.txt', "r+")
     #checks to see if fileexists
-    fileexists = path.exists("accounts/savefiles" + user + ".txt")
+    fileexists = path.exists("accounts/savefiles/" + user + ".txt")
     if fileexists:
             try:
-                f = open("accounts/savefiles" + user + ".txt", "r+")
+                f = open("accounts/savefiles/" + user + ".txt", "r+")
                 contents = f.read()
 
                 text = contents.split(',')

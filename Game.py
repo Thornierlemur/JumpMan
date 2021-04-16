@@ -1,6 +1,8 @@
 import pygame, sys, os, random
 from pygame.locals import *
-    
+import os.path
+from os import path
+
 # Setup pygame/window
 mainClock = pygame.time.Clock()
 pygame.init()
@@ -231,7 +233,7 @@ def LeaderBoards():
     # Array to hold classes for the top 5 players
     playerArray = []
 
-    file1 = open("leaderboard.txt", "r")
+    file1 = open("accounts\leaderboard.txt", "r")
 
     # Read players and scores from file
     while True:
@@ -316,13 +318,17 @@ def LeaderBoards():
             pygame.display.update()
             mainClock.tick(60)  # Framerate of the game
 
-# this function allows for me to save a game while playing
+# Intent: this function allows for me to save a game while playing
+# Preconditions: user = "". holds the users username
+#                location = [0,0]. Holds the users location
+#                level = "". Holds the level of the player
+# Poscondition: the game is saved to a file
 def SaveGame(user = "", location = [0,0], level=""):
     # open a file named the username.
     # If the file does not exist it will create it
     # If the file already exists, it truncates the previous version
-    f = open(user+'.txt', "w+")
-
+    #f = open(user + '.txt', 'w+')
+    f = open("accounts/savefiles/" + user + ".txt", "w+")
     # Storing the values of the player position
     x = str(location[0])
     y = str(location[1])
@@ -339,34 +345,43 @@ def LoadGame(user = ""):
     # Need to find a way to see if a file exists or not.
     # If it does not exist then we can do nothing 
     # But if it does exist then we load the users saved file
-    try:
-        f = open(user+'.txt', "r+")
-        contents = f.read()
 
-        text = contents.split(',')
+    #f = open(user+'.txt', "r+")
+    #checks to see if fileexists
+    fileexists = path.exists("accounts/savefiles/" + user + ".txt")
+    if fileexists:
+            try:
+                f = open("accounts/savefiles/" + user + ".txt", "r+")
+                contents = f.read()
 
-        # getting the location of the player
-        location = []
-        location.append(int(text[0]))
-        location.append(int(text[1]))
+                text = contents.split(',')
 
-        # Getting the level the player saved in
-        level = int(text[2])
+                # getting the location of the player
+                location = []
+                location.append(int(text[0]))
+                location.append(int(text[1]))
 
-        if level == 1:
-            level1(location, user, '1')
-        elif level == 2:
-            level1(location, user, '2')
-        elif level == 3:
-            level1(location, user, '3')
-        elif level == 4:
-            level1(location, user, '4')
-        else:
-            level1(location, user, '5')
-    except IOError:
-        return
-    finally:
-        f.close()
+                #Getting the level the player saved in
+                level = int(text[2])
+
+                if level == 1:
+                    level1(location, user, '1')
+                elif level == 2:
+                    level1(location, user, '2')
+                elif level == 3:
+                    level1(location, user, '3')
+                elif level == 4:
+                    level1(location, user, '4')
+                elif level == 5:
+                    level1(location, user, '5')
+            except IOError:
+                    return
+            finally:
+                f.close()
+    else:
+        location = [0,0]
+        level1(location, user, '1')
+
 
 
 # Intent: Helper function that tests for collisions of the player
@@ -459,7 +474,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
     player_flip = False
 
     # Loading the map
-    game_map = load_map('map'+level_num)
+    game_map = load_map('maps/map'+level_num)
 
     grass_image = pygame.image.load('images/grass.png')
     TILE_SIZE = grass_image.get_width()

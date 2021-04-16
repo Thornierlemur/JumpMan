@@ -480,6 +480,10 @@ def level1(locations = [0,0], username = "", level_num = '1'):
     TILE_SIZE = grass_image.get_width()
     dirt_image = pygame.image.load('images/dirt.png')
 
+
+    coin_image = pygame.image.load('images/coin.png')
+    display.blit(coin_image, (100,19))
+
     # Sounds
     jump_sound = pygame.mixer.Sound('audio/jump.wav')
     grass_sounds = [pygame.mixer.Sound('audio/grass_0.wav'),pygame.mixer.Sound('audio/grass_1.wav')]

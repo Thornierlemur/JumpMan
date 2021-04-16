@@ -480,10 +480,6 @@ def level1(locations = [0,0], username = "", level_num = '1'):
     TILE_SIZE = grass_image.get_width()
     dirt_image = pygame.image.load('images/dirt.png')
 
-
-    coin_image = pygame.image.load('images/coin.png')
-    display.blit(coin_image, (100,19))
-
     # Sounds
     jump_sound = pygame.mixer.Sound('audio/jump.wav')
     grass_sounds = [pygame.mixer.Sound('audio/grass_0.wav'),pygame.mixer.Sound('audio/grass_1.wav')]
@@ -607,6 +603,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         # (50,50) -> x, y (these values are inverted)
         display.blit(pygame.transform.flip(player_img,player_flip,False),(player_rect.x-scroll[0],player_rect.y-scroll[1]))
 
+
         # This if-elif tree checks to
         # see if the user has reached the end of the level they are in
         # IF they reached the end of the level we call the continue screen
@@ -655,9 +652,16 @@ def level1(locations = [0,0], username = "", level_num = '1'):
             
         # changes the size of my smaller image to be the size
         # of the new image
+
+        coin_image = pygame.image.load('images/coin.png')
+        display.blit(coin_image, (100,19))
+
         surf = pygame.transform.scale(display, res)
         screen.blit(surf, (0, 0))
 
         pygame.display.update()
         mainClock.tick(60)
+
+    
+
     pygame.mixer.music.fadeout(500)

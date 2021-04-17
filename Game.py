@@ -114,6 +114,10 @@ def main_menu(username):
         #pygame.draw.rect(screen, (255,255,255), button_5)
         draw_text("Exit", button_font, (0,0,0), screen, 50, 500) # old 300,200
 
+
+        # Welcome message
+        draw_text("Hello " + str(username) + "!", button_font, (0, 0, 0), screen, 525, 550)
+
         # must reset the click variable before every event
         click = False
         for event in pygame.event.get():
@@ -131,6 +135,105 @@ def main_menu(username):
                 
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
+
+
+
+#Creates pause menu when the "esc" key is pressed
+
+def pause_game_screen(username = "", locations = [0,0], level_num=""):
+   
+
+    #Pause Menu image location and its rect
+    myimage = pygame.image.load("images/pausemenu.png")
+    imagerect = pygame.Rect(255, 215, 350, 240)
+    click_sound = pygame.mixer.Sound('audio/click.wav')
+
+
+    running = True
+    click = False
+
+    while running:
+        
+        #add image to screen
+        screen.blit(myimage, imagerect)
+        
+        mx, my = pygame.mouse.get_pos()
+        
+        draw_text('PAUSED', font, (0, 0, 0), screen, 20, 20)
+
+        continue_button = pygame.Rect(320, 246, 160, 25) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),continue_button)
+        #draw_text('CONTINUE', pause_game_font, (255, 255, 255), screen, 290, 225)
+
+        save_button = pygame.Rect(310, 275, 175, 24) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),save_button)
+        #draw_text('SAVE', font1, (255, 255, 255), screen, 325, 275)
+        
+        exit_button = pygame.Rect(350, 305, 88, 25) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),exit_button)
+        #draw_text('EXIT', pause_game_font, (255, 255, 255), screen, 340, 325)
+
+        mute_button = pygame.Rect(285, 332, 88, 25) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),mute_button)
+        #draw_text('EXIT', pause_game_font, (255, 255, 255), screen, 340, 325)
+
+        unmute_button = pygame.Rect(390, 332, 130, 25) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),unmute_button)
+        #draw_text('EXIT', pause_game_font, (255, 255, 255), screen, 340, 325)
+
+        player_rect = pygame.Rect(100, 100, 5, 13)
+
+        if locations[0] == 0 and locations[1] == 0:
+            pass
+        else:
+            player_rect.x = locations[0]
+            player_rect.y = locations[1]   
+
+        if continue_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                #print("clicked")
+                return True
+
+        if save_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                #print("clicked")
+                player_location = []
+                player_location.append(int(player_rect.x))
+                player_location.append(int(player_rect.y))  
+                SaveGame(username, player_location, level_num)
+
+                draw_text('SAVED!', title_font, black, screen, 285, 100)
+
+
+        if exit_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                #print("clicked")           
+                return False
+
+        if mute_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                pygame.mixer.music.fadeout(1000)
+
+        if unmute_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                #print("clicked")
+                pygame.mixer.music.play(-1)           
+
+               
+        
+        click = False
+        for event in pygame.event.get():
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        pygame.display.update()
+        mainClock.tick(60)
 
 # Intent: Closes the game window
 def Exit():
@@ -637,7 +740,22 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                 if event.key == K_RIGHT:
                     moving_right = True
                 if event.key == K_ESCAPE:
-                    running = False
+
+                    player_location = []
+                    player_location.append(int(player_rect.x))
+                    player_location.append(int(player_rect.y))
+
+                    pause_game_screen(username, player_location, level_num)
+
+
+                    # fixing moving on own bug
+                    moving_right = False
+                    moving_left = False
+
+                    running = pause_game_screen()
+                    print(running)
+
+
                 if event.key == K_LEFT:
                     moving_left = True
                 if event.key == K_UP:

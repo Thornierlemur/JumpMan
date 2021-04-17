@@ -192,40 +192,28 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
         if continue_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
-                #print("clicked")
                 return True
-
         if save_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
-                #print("clicked")
                 player_location = []
                 player_location.append(int(player_rect.x))
                 player_location.append(int(player_rect.y))  
                 SaveGame(username, player_location, level_num)
-
                 draw_text('SAVED!', title_font, black, screen, 285, 100)
-
-
         if exit_button.collidepoint((mx, my)):
             if click:
-                click_sound.play()
-                #print("clicked")           
+                click_sound.play()    
                 return False
-
         if mute_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
                 pygame.mixer.music.fadeout(1000)
-
         if unmute_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
-                #print("clicked")
                 pygame.mixer.music.play(-1)           
 
-               
-        
         click = False
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
@@ -745,14 +733,15 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                     player_location.append(int(player_rect.x))
                     player_location.append(int(player_rect.y))
 
-                    pause_game_screen(username, player_location, level_num)
+                    flag = pause_game_screen(username, player_location, level_num)
 
 
                     # fixing moving on own bug
                     moving_right = False
                     moving_left = False
 
-                    running = pause_game_screen()
+                    
+                    running = flag
                     print(running)
 
 

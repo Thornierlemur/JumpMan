@@ -2,6 +2,7 @@ import pygame, sys, os, random
 from pygame.locals import *
 import os.path
 from os import path
+import random
 
 # Setup pygame/window
 mainClock = pygame.time.Clock()
@@ -744,9 +745,15 @@ def death_screen(username, level):
 #          All passed variables have a default setting so that if the programmer
 #          forgets to pass something the function catches it and makes sure the function
 #          does not crash.
+
+# Return a random RGB color from 0 - 255
+def random_color():
+    random_color_value = random.randrange(0, 255, 3)
+    return random_color_value
+
 def level1(locations = [0,0], username = "", level_num = '1'):
     screen.fill(black)
-
+    
     # like an image! (resolution)
     display = pygame.Surface((300, 200))
 
@@ -803,7 +810,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
     while running:
         # red, green, blue
         display.fill((146,244,255))
-
+       
         if grass_sound_timer > 0:
             grass_sound_timer -= 1
 
@@ -815,7 +822,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         scroll[0] = int(scroll[0])
         scroll[1] = int(scroll[1])
 
-        # Dark Green
+        # Dark Green rand_color_
         pygame.draw.rect(display, (7, 80, 75), pygame.Rect(0,120,300,80))
         for background_object in background_objects:
             obj_rect = pygame.Rect(background_object[1][0] - scroll[0]*background_object[0], background_object[1][1] - scroll[1]*background_object[0], background_object[1][2], background_object[1][3])
@@ -975,8 +982,8 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         # changes the size of my smaller image to be the size
         # of the new image
 
-        coin_image = pygame.image.load('images/coin.png')
-        display.blit(coin_image, (100,19))
+        # coin_image = pygame.image.load('images/coin.png')
+        # display.blit(coin_image, (100,19))
 
         surf = pygame.transform.scale(display, res)
         screen.blit(surf, (0, 0))

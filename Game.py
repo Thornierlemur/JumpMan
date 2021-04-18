@@ -209,7 +209,8 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
         if exit_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
-                #print("clicked")           
+                pygame.mixer.music.fadeout(1000)
+                main_menu(username)        
                 return False
 
         if mute_button.collidepoint((mx, my)):
@@ -682,7 +683,8 @@ def death_screen(username, level):
         #screen.fill(Baby_Blue)
         screen.blit(ldr_image, (0, 0))
 
-        draw_text('Continue Screen', font, black, screen, 20, 20)
+        draw_text('Death Screen', font, black, screen, 20, 20)
+        draw_text("You died!", button_font, black, screen, 50, 100)
 
         # gets the x and y positions of the mouse and puts them
         # into our variables mx, my
@@ -690,44 +692,33 @@ def death_screen(username, level):
 
         # Creation of our buttons
         # x, y, length, height
-        button_1 = pygame.Rect(50, 100, 160, 40) # old 50,100,150,50
-        button_2 = pygame.Rect(50, 200, 160, 40) # old 50,200,150,50
+        button_1 = pygame.Rect(50, 200, 160, 40) # old 50,100,150,50
+        button_2 = pygame.Rect(50, 250, 160, 40) # old 50,200,150,50
 
         # checking for collisions
         if button_1.collidepoint((mx, my)):
             if click:
                 location = [0,0]
                 if level == '1':
-                    level1(location, username, '2')
+                    level1(location, username, '1')
                 elif level == '2':
-                    level1(location, username, '3')
+                    level1(location, username, '2')
                 elif level == '3':
-                    level1(location, username, '4')
+                    level1(location, username, '3')
                 elif level == '4':
-                    level1(location, username, '5')
+                    level1(location, username, '4')
                 elif level == '5':
-                    end_screen()
+                    level1(location, username, '5')
         if button_2.collidepoint((mx, my)):
             if click:
-                if level == '1':
-                    SaveGame(username, [0,0], '2')
-                    main_menu(username)
-                elif level == '2':
-                    SaveGame(username, [0,0], '3')
-                    main_menu(username)
-                elif level == '3':
-                    SaveGame(username, [0,0], '4')
-                    main_menu(username)
-                elif level == '4':
-                    SaveGame(username, [0,0], '5')
-                    main_menu(username)
+                main_menu(username)
 
         # renders the buttons
         #pygame.draw.rect(screen, (255,255,255), button_1)
-        draw_text("Continue", button_font, black, screen, 50, 100)
+        draw_text("Restart Level", button_font, black, screen, 50, 200)
 
         #pygame.draw.rect(screen, (255,255,255), button_2)
-        draw_text("Exit", button_font, black, screen, 50, 200)
+        draw_text("Exit", button_font, black, screen, 50, 250)
 
         # must reset the click variable before every event
         click = False
@@ -923,13 +914,9 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 
                     pause_game_screen(username, player_location, level_num)
 
-
                     # fixing moving on own bug
                     moving_right = False
                     moving_left = False
-
-                    running = pause_game_screen()
-                    print(running)
 
 
                 if event.key == K_LEFT:
@@ -948,26 +935,42 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         # This if-elif tree checks to
         # see if the user has reached the end of the level they are in
         # IF they reached the end of the level we call the continue screen
+        # This branch also checks to see if the player fell off the map
         if level_num == '1':
             if player_rect.x >= 2271 and player_rect.y == 131:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num)
+            elif player_rect.y >= 226:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
         elif level_num == '2':
             if player_rect.x >= 4721 and player_rect.y == 99:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num)
+            elif player_rect.y >= 333:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
         elif level_num == '3':
             if player_rect.x >= 4557 and player_rect.y == 67:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num)
+            elif player_rect.y >= 333:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
         elif level_num == '4':
             if player_rect.x >= 4741 and player_rect.y == 291:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num)
+            elif player_rect.y >= 333:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
         elif level_num == '5':
             if player_rect.x >= 4699 and player_rect.y == 35:
                 pygame.mixer.music.fadeout(1000)
                 end_screen(username)
+            elif player_rect.y >= 333:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
             
         # changes the size of my smaller image to be the size
         # of the new image

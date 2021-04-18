@@ -191,28 +191,40 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
         if continue_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
+                #print("clicked")
                 return True
+
         if save_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
+                #print("clicked")
                 player_location = []
                 player_location.append(int(player_rect.x))
                 player_location.append(int(player_rect.y))  
                 SaveGame(username, player_location, level_num)
+
                 draw_text('SAVED!', title_font, black, screen, 285, 100)
+
+
         if exit_button.collidepoint((mx, my)):
             if click:
-                click_sound.play()    
+                click_sound.play()
+                #print("clicked")           
                 return False
+
         if mute_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
                 pygame.mixer.music.fadeout(1000)
+
         if unmute_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
+                #print("clicked")
                 pygame.mixer.music.play(-1)           
 
+               
+        
         click = False
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
@@ -574,8 +586,6 @@ def continue_screen(username, level):
                     level1(location, username, '4')
                 elif level == '4':
                     level1(location, username, '5')
-                elif level == '5':
-                    end_screen()
         if button_2.collidepoint((mx, my)):
             if click:
                 if level == '1':
@@ -624,7 +634,8 @@ def end_screen(username):
         #screen.fill(Baby_Blue)
         screen.blit(ldr_image, (0, 0))
 
-        draw_text('Continue Screen', font, black, screen, 20, 20)
+        draw_text('End of Game', font, black, screen, 20, 20)
+        draw_text("Congratulations for beating the game!", button_font, black, screen, 50, 100)
 
         # gets the x and y positions of the mouse and puts them
         # into our variables mx, my
@@ -642,8 +653,6 @@ def end_screen(username):
         # renders the buttons
         #pygame.draw.rect(screen, (255,255,255), button_1)
         draw_text("Exit", button_font, black, screen, 50, 300)
-
-        draw_text("Congratulations for beating the game!", button_font, black, screen, 50, 100)
 
         # must reset the click variable before every event
         click = False
@@ -911,15 +920,14 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                     player_location.append(int(player_rect.x))
                     player_location.append(int(player_rect.y))
 
-                    flag = pause_game_screen(username, player_location, level_num)
+                    pause_game_screen(username, player_location, level_num)
 
 
                     # fixing moving on own bug
                     moving_right = False
                     moving_left = False
 
-                    
-                    running = flag
+                    running = pause_game_screen()
                     print(running)
 
 
@@ -958,7 +966,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         elif level_num == '5':
             if player_rect.x >= 4699 and player_rect.y == 35:
                 pygame.mixer.music.fadeout(1000)
-                continue_screen(username, level_num)
+                end_screen(username)
             
         # changes the size of my smaller image to be the size
         # of the new image
@@ -971,7 +979,4 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 
         pygame.display.update()
         mainClock.tick(60)
-
-    
-
     pygame.mixer.music.fadeout(500)

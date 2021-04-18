@@ -139,7 +139,6 @@ def main_menu(username):
 
 
 #Creates pause menu when the "esc" key is pressed
-
 def pause_game_screen(username = "", locations = [0,0], level_num=""):
    
 
@@ -555,6 +554,200 @@ def change_action(action_var,frame,new_value):
         frame = 0
     return action_var,frame
 
+def continue_screen(username, level):
+    # click variable to detect when the user clicks a button
+    click = False
+    running = True
+    while running:
+
+        #screen.fill(Baby_Blue)
+        screen.blit(ldr_image, (0, 0))
+
+        draw_text('Continue Screen', font, black, screen, 20, 20)
+
+        # gets the x and y positions of the mouse and puts them
+        # into our variables mx, my
+        mx, my = pygame.mouse.get_pos()
+
+        # Creation of our buttons
+        # x, y, length, height
+        button_1 = pygame.Rect(50, 100, 160, 40) # old 50,100,150,50
+        button_2 = pygame.Rect(50, 200, 160, 40) # old 50,200,150,50
+
+        # checking for collisions
+        if button_1.collidepoint((mx, my)):
+            if click:
+                location = [0,0]
+                if level == '1':
+                    level1(location, username, '2')
+                elif level == '2':
+                    level1(location, username, '3')
+                elif level == '3':
+                    level1(location, username, '4')
+                elif level == '4':
+                    level1(location, username, '5')
+                elif level == '5':
+                    end_screen()
+        if button_2.collidepoint((mx, my)):
+            if click:
+                if level == '1':
+                    SaveGame(username, [0,0], '2')
+                    main_menu(username)
+                elif level == '2':
+                    SaveGame(username, [0,0], '3')
+                    main_menu(username)
+                elif level == '3':
+                    SaveGame(username, [0,0], '4')
+                    main_menu(username)
+                elif level == '4':
+                    SaveGame(username, [0,0], '5')
+                    main_menu(username)
+
+        # renders the buttons
+        #pygame.draw.rect(screen, (255,255,255), button_1)
+        draw_text("Continue", button_font, black, screen, 50, 100)
+
+        #pygame.draw.rect(screen, (255,255,255), button_2)
+        draw_text("Exit", button_font, black, screen, 50, 200)
+
+        # must reset the click variable before every event
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            # case when the user clicks onto a button
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                
+            pygame.display.update()
+            mainClock.tick(60) # framerate of the game
+
+def end_screen(username):
+    # click variable to detect when the user clicks a button
+    click = False
+    running = True
+    while running:
+
+        #screen.fill(Baby_Blue)
+        screen.blit(ldr_image, (0, 0))
+
+        draw_text('Continue Screen', font, black, screen, 20, 20)
+
+        # gets the x and y positions of the mouse and puts them
+        # into our variables mx, my
+        mx, my = pygame.mouse.get_pos()
+
+        # Creation of our buttons
+        # x, y, length, height
+        button_1 = pygame.Rect(50, 100, 160, 40) # old 50,100,150,50
+
+        # checking for collisions
+        if button_1.collidepoint((mx, my)):
+            if click:
+                main_menu(username)
+
+        # renders the buttons
+        #pygame.draw.rect(screen, (255,255,255), button_1)
+        draw_text("Exit", button_font, black, screen, 50, 300)
+
+        draw_text("Congratulations for beating the game!", button_font, black, screen, 50, 100)
+
+        # must reset the click variable before every event
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            # case when the user clicks onto a button
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                
+            pygame.display.update()
+            mainClock.tick(60) # framerate of the game
+
+# Intent: When the user falls off the map this screen pops up
+#         prompting the user if they want to continue or exit to the main menu
+# Preconditions: User has fallen off the map
+# Postconditions: User restarts level or returns to the main menu
+def death_screen(username, level):
+    # click variable to detect when the user clicks a button
+    click = False
+    running = True
+    while running:
+
+        #screen.fill(Baby_Blue)
+        screen.blit(ldr_image, (0, 0))
+
+        draw_text('Continue Screen', font, black, screen, 20, 20)
+
+        # gets the x and y positions of the mouse and puts them
+        # into our variables mx, my
+        mx, my = pygame.mouse.get_pos()
+
+        # Creation of our buttons
+        # x, y, length, height
+        button_1 = pygame.Rect(50, 100, 160, 40) # old 50,100,150,50
+        button_2 = pygame.Rect(50, 200, 160, 40) # old 50,200,150,50
+
+        # checking for collisions
+        if button_1.collidepoint((mx, my)):
+            if click:
+                location = [0,0]
+                if level == '1':
+                    level1(location, username, '2')
+                elif level == '2':
+                    level1(location, username, '3')
+                elif level == '3':
+                    level1(location, username, '4')
+                elif level == '4':
+                    level1(location, username, '5')
+                elif level == '5':
+                    end_screen()
+        if button_2.collidepoint((mx, my)):
+            if click:
+                if level == '1':
+                    SaveGame(username, [0,0], '2')
+                    main_menu(username)
+                elif level == '2':
+                    SaveGame(username, [0,0], '3')
+                    main_menu(username)
+                elif level == '3':
+                    SaveGame(username, [0,0], '4')
+                    main_menu(username)
+                elif level == '4':
+                    SaveGame(username, [0,0], '5')
+                    main_menu(username)
+
+        # renders the buttons
+        #pygame.draw.rect(screen, (255,255,255), button_1)
+        draw_text("Continue", button_font, black, screen, 50, 100)
+
+        #pygame.draw.rect(screen, (255,255,255), button_2)
+        draw_text("Exit", button_font, black, screen, 50, 200)
+
+        # must reset the click variable before every event
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            # case when the user clicks onto a button
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                
+            pygame.display.update()
+            mainClock.tick(60) # framerate of the game
+
 # Intent: Creates the level in which the player is currently in
 # Preconditions: locations = [0,0]. is the location of the player
 #                username = "". is the name of the user
@@ -705,21 +898,6 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         # render the player image onto the screen
         # (50,50) -> x, y (these values are inverted)
         display.blit(pygame.transform.flip(player_img,player_flip,False),(player_rect.x-scroll[0],player_rect.y-scroll[1]))
-
-
-        # This if-elif tree checks to
-        # see if the user has reached the end of the level they are in
-        # IF they reached the end of the level we call the continue screen
-        if level_num == '1':
-            pass
-        elif level_num == '2':
-            pass
-        elif level_num == '3':
-            pass
-        elif level_num == '4':
-            pass
-        elif level_num == '5':
-            pass
         
         # Catches what buttons the player presses and performs those actions
         for event in pygame.event.get():
@@ -767,6 +945,31 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                     moving_right = False
                 if event.key == K_LEFT:
                     moving_left = False
+
+        
+        # This if-elif tree checks to
+        # see if the user has reached the end of the level they are in
+        # IF they reached the end of the level we call the continue screen
+        if level_num == '1':
+            if player_rect.x >= 2271 and player_rect.y == 131:
+                pygame.mixer.music.fadeout(1000)
+                continue_screen(username, level_num)
+        elif level_num == '2':
+            if player_rect.x >= 4721 and player_rect.y == 99:
+                pygame.mixer.music.fadeout(1000)
+                continue_screen(username, level_num)
+        elif level_num == '3':
+            if player_rect.x >= 4557 and player_rect.y == 67:
+                pygame.mixer.music.fadeout(1000)
+                continue_screen(username, level_num)
+        elif level_num == '4':
+            if player_rect.x >= 4741 and player_rect.y == 291:
+                pygame.mixer.music.fadeout(1000)
+                continue_screen(username, level_num)
+        elif level_num == '5':
+            if player_rect.x >= 4699 and player_rect.y == 35:
+                pygame.mixer.music.fadeout(1000)
+                continue_screen(username, level_num)
             
         # changes the size of my smaller image to be the size
         # of the new image

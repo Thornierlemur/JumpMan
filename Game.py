@@ -748,7 +748,7 @@ def death_screen(username, level):
 
 # Return a random RGB color from 0 - 255
 def random_color():
-    random_color_value = random.randrange(0, 255, 3)
+    random_color_value = random.randrange(35, 255, 3)
     return random_color_value
 
 def level1(locations = [0,0], username = "", level_num = '1'):
@@ -806,11 +806,23 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         player_rect.x = locations[0]
         player_rect.y = locations[1]
 
+
+    rand_color_1 = random_color()
+    rand_color_2 = random_color()
+    rand_color_3 = random_color()
+    rand_color_4 = random_color()
+    rand_color_5 = random_color()
+    rand_color_6 = random_color()
+    rand_color_7 = random_color()
+    rand_color_8 = random_color()
+    rand_color_9 = random_color()
+
     running = True
     while running:
         # red, green, blue
-        display.fill((146,244,255))
-       
+        # display.fill((146,244,255))
+        display.fill((rand_color_1,rand_color_2,rand_color_3))
+               
         if grass_sound_timer > 0:
             grass_sound_timer -= 1
 
@@ -823,13 +835,16 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         scroll[1] = int(scroll[1])
 
         # Dark Green rand_color_
-        pygame.draw.rect(display, (7, 80, 75), pygame.Rect(0,120,300,80))
+        #pygame.draw.rect(display, (7, 80, 75), pygame.Rect(0,120,300,80))
+        pygame.draw.rect(display, (rand_color_1, rand_color_2, rand_color_3), pygame.Rect(0,120,300,80))
         for background_object in background_objects:
             obj_rect = pygame.Rect(background_object[1][0] - scroll[0]*background_object[0], background_object[1][1] - scroll[1]*background_object[0], background_object[1][2], background_object[1][3])
             if background_object[0] == 0.5:
-                pygame.draw.rect(display, (14, 222,150),obj_rect) # rendering the object a certain value based on its scroll multiplier
+                #pygame.draw.rect(display, (14, 222,150),obj_rect) # rendering the object a certain value based on its scroll multiplier
+                pygame.draw.rect(display, (rand_color_4, rand_color_5,rand_color_6),obj_rect) # rendering the object a certain value based on its scroll multiplier
             else:
-                pygame.draw.rect(display, (9, 91, 85),obj_rect)
+                #pygame.draw.rect(display, (9, 91, 85),obj_rect)
+                pygame.draw.rect(display, (rand_color_7, rand_color_8, rand_color_9),obj_rect)
 
         #scroll[0] += 1 This allows for the camera to continuously move to the right
 

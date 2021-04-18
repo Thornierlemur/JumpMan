@@ -635,7 +635,8 @@ def end_screen(username):
         screen.blit(ldr_image, (0, 0))
 
         draw_text('End of Game', font, black, screen, 20, 20)
-        draw_text("Congratulations for beating the game!", button_font, black, screen, 50, 100)
+        draw_text("Congratulations for beating", button_font, black, screen, 50, 100)
+        draw_text("the game!", button_font, black, screen, 50, 150)
 
         # gets the x and y positions of the mouse and puts them
         # into our variables mx, my
@@ -643,7 +644,7 @@ def end_screen(username):
 
         # Creation of our buttons
         # x, y, length, height
-        button_1 = pygame.Rect(50, 100, 160, 40) # old 50,100,150,50
+        button_1 = pygame.Rect(50, 250, 160, 40) # old 50,100,150,50
 
         # checking for collisions
         if button_1.collidepoint((mx, my)):
@@ -652,7 +653,7 @@ def end_screen(username):
 
         # renders the buttons
         #pygame.draw.rect(screen, (255,255,255), button_1)
-        draw_text("Exit", button_font, black, screen, 50, 300)
+        draw_text("Exit", button_font, black, screen, 50, 250)
 
         # must reset the click variable before every event
         click = False

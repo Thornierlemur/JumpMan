@@ -117,7 +117,6 @@ def main_menu(username):
         #pygame.draw.rect(screen, (255,255,255), button_5)
         draw_text("Exit", button_font, (0,0,0), screen, 50, 500) # old 300,200
 
-
         # Welcome message
         draw_text("Hello " + str(username) + "!", button_font, (0, 0, 0), screen, 525, 550)
 
@@ -138,8 +137,6 @@ def main_menu(username):
                 
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
-
-
 
 # intent: Creates pause menu when the "esc" key is pressed
 # Preconditions: All variables are assigned predetermined values to not cause error
@@ -326,7 +323,6 @@ def LeaderBoards():
     playerArray = []
 
     file1 = open("accounts\leaderboard.txt", "r")
-
     # Read players and scores from file
     while True:
         tempName = file1.readline()
@@ -337,10 +333,7 @@ def LeaderBoards():
         tempPlayer = playerAndScore(tempName, tempScore)
         playerArray.append(tempPlayer)
 
-
-
     while running:
-
         screen.blit(ldr_image, (0, 0))
         draw_text('Leaderboards', title_font, black, screen, 136, 20)
 
@@ -356,24 +349,18 @@ def LeaderBoards():
         draw_text("1. " + playerArray[0].player.strip(), button_font, black, screen, 136, 150) # old 175,50
         draw_text(playerArray[0].score.strip(), button_font, black, screen, 540, 150)
 
-
         button_2 = pygame.Rect(175, 90, 150, 50)
-
         draw_text("2. " + playerArray[1].player.strip(), button_font, black, screen, 136, 200) # old 175,50
         draw_text(playerArray[1].score.strip(), button_font, black, screen, 540, 200)
-
 
         draw_text("3. " + playerArray[2].player.strip(), button_font, black, screen, 136, 250) # old 175,50
         draw_text(playerArray[2].score.strip(), button_font, black, screen, 540, 250)
 
-
         draw_text("4. " + playerArray[3].player.strip(), button_font, black, screen, 136, 300) # old 175,50
         draw_text(playerArray[3].score.strip(), button_font, black, screen, 540, 300)
 
-
         draw_text("5. " + playerArray[4].player.strip(), button_font, black, screen, 136, 350) # old 175,50
         draw_text(playerArray[4].score.strip(), button_font, black, screen, 540, 350)
-
 
         # must reset the click variable before every event
         click = False
@@ -706,6 +693,11 @@ def death_screen(username, level):
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
 
+# Intent: Return a random RGB color from 35 - 255
+def random_color():
+    random_color_value = random.randrange(35, 255, 3)
+    return random_color_value
+
 # Intent: Creates the level in which the player is currently in
 # Preconditions: locations = [0,0]. is the location of the player
 #                username = "". is the name of the user
@@ -713,18 +705,6 @@ def death_screen(username, level):
 #          All passed variables have a default setting so that if the programmer
 #          forgets to pass something the function catches it and makes sure the function
 #          does not crash.
-
-# Intent: Return a random RGB color from 35 - 255
-def random_color():
-    random_color_value = random.randrange(35, 255, 3)
-    return random_color_value
-
-# Intent: Create the level based on the parameters based
-# Preconditions: locations = [0,0] location of the player
-#                username = "" name of the player
-#                level_num = '1' the level we are supposed to load
-#                All preconditions are intentionally pre given values just in case
-#                a programmer forgets to pass the function paramters. (will start at level 1)
 def level1(locations = [0,0], username = "", level_num = '1'):
     screen.fill(black)
     
@@ -793,8 +773,6 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 
     running = True
     while running:
-        # red, green, blue
-        # display.fill((146,244,255))
         display.fill((rand_color_1,rand_color_2,rand_color_3))
                
         if grass_sound_timer > 0:
@@ -808,16 +786,12 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         scroll[0] = int(scroll[0])
         scroll[1] = int(scroll[1])
 
-        # Dark Green rand_color_
-        #pygame.draw.rect(display, (7, 80, 75), pygame.Rect(0,120,300,80))
         pygame.draw.rect(display, (rand_color_1, rand_color_2, rand_color_3), pygame.Rect(0,120,300,80))
         for background_object in background_objects:
             obj_rect = pygame.Rect(background_object[1][0] - scroll[0]*background_object[0], background_object[1][1] - scroll[1]*background_object[0], background_object[1][2], background_object[1][3])
             if background_object[0] == 0.5:
-                #pygame.draw.rect(display, (14, 222,150),obj_rect) # rendering the object a certain value based on its scroll multiplier
                 pygame.draw.rect(display, (rand_color_4, rand_color_5,rand_color_6),obj_rect) # rendering the object a certain value based on its scroll multiplier
             else:
-                #pygame.draw.rect(display, (9, 91, 85),obj_rect)
                 pygame.draw.rect(display, (rand_color_7, rand_color_8, rand_color_9),obj_rect)
 
         #scroll[0] += 1 This allows for the camera to continuously move to the right

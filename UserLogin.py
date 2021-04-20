@@ -260,7 +260,7 @@ def change_password_window():
 
   newPassWin.mainloop
 
-# Intent: Function that grab the users username and return its if succesful or blank if not.
+# Intent: Function that grab the users username and return it if succesful or blank if not.
 def get_user_name():
   global name
 

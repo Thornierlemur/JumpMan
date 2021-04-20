@@ -6,10 +6,11 @@ import time
 
 name = ""
 
-# Function to center Tkinter in center of the currently foucsed screen
-# Parameters root = window, w = width, h = hieght 
-# Example center_window(root,500,500)
-# Display a window in the center with a width and height of 500
+# Intent: Function to center Tkinter window in center of the currently focused screen
+# Preconditions: Parameters root = window, w = width, h = hieght 
+# Post condition: Display a window in the center of screen
+# Example center_window(root,500,500) , displays the specified window at center with 
+# a width and heigh of 500
 def center_window(root, w, h):
         ws = root.winfo_screenwidth()
         hs = root.winfo_screenheight()

@@ -653,9 +653,6 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         # changes the size of my smaller image to be the size
         # of the new image
 
-        coin_image = pygame.image.load('images/coin.png')
-        display.blit(coin_image, (100,19))
-
         surf = pygame.transform.scale(display, res)
         screen.blit(surf, (0, 0))
 

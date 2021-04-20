@@ -2,6 +2,7 @@ import pygame, sys, os, random
 from pygame.locals import *
 import os.path
 from os import path
+import random
 
 # Setup pygame/window
 mainClock = pygame.time.Clock()
@@ -114,6 +115,10 @@ def main_menu(username):
         #pygame.draw.rect(screen, (255,255,255), button_5)
         draw_text("Exit", button_font, (0,0,0), screen, 50, 500) # old 300,200
 
+
+        # Welcome message
+        draw_text("Hello " + str(username) + "!", button_font, (0, 0, 0), screen, 525, 550)
+
         # must reset the click variable before every event
         click = False
         for event in pygame.event.get():
@@ -131,6 +136,105 @@ def main_menu(username):
                 
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
+
+
+
+#Creates pause menu when the "esc" key is pressed
+def pause_game_screen(username = "", locations = [0,0], level_num=""):
+   
+
+    #Pause Menu image location and its rect
+    myimage = pygame.image.load("images/pausemenu.png")
+    imagerect = pygame.Rect(255, 215, 350, 240)
+    click_sound = pygame.mixer.Sound('audio/click.wav')
+
+
+    running = True
+    click = False
+
+    while running:
+        
+        #add image to screen
+        screen.blit(myimage, imagerect)
+        
+        mx, my = pygame.mouse.get_pos()
+        
+        draw_text('PAUSED', font, (0, 0, 0), screen, 20, 20)
+
+        continue_button = pygame.Rect(320, 246, 160, 25) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),continue_button)
+        #draw_text('CONTINUE', pause_game_font, (255, 255, 255), screen, 290, 225)
+
+        save_button = pygame.Rect(310, 275, 175, 24) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),save_button)
+        #draw_text('SAVE', font1, (255, 255, 255), screen, 325, 275)
+        
+        exit_button = pygame.Rect(350, 305, 88, 25) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),exit_button)
+        #draw_text('EXIT', pause_game_font, (255, 255, 255), screen, 340, 325)
+
+        mute_button = pygame.Rect(285, 332, 88, 25) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),mute_button)
+        #draw_text('EXIT', pause_game_font, (255, 255, 255), screen, 340, 325)
+
+        unmute_button = pygame.Rect(390, 332, 130, 25) # old 50,100,200,50
+        #pygame.draw.rect(screen, (255,255,255),unmute_button)
+        #draw_text('EXIT', pause_game_font, (255, 255, 255), screen, 340, 325)
+
+        player_rect = pygame.Rect(100, 100, 5, 13)
+
+        if locations[0] == 0 and locations[1] == 0:
+            pass
+        else:
+            player_rect.x = locations[0]
+            player_rect.y = locations[1]   
+
+        if continue_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                #print("clicked")
+                return True
+
+        if save_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                #print("clicked")
+                player_location = []
+                player_location.append(int(player_rect.x))
+                player_location.append(int(player_rect.y))  
+                SaveGame(username, player_location, level_num)
+
+                draw_text('SAVED!', title_font, black, screen, 285, 100)
+
+
+        if exit_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                pygame.mixer.music.fadeout(1000)
+                main_menu(username)        
+                return False
+
+        if mute_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                pygame.mixer.music.fadeout(1000)
+
+        if unmute_button.collidepoint((mx, my)):
+            if click:
+                click_sound.play()
+                #print("clicked")
+                pygame.mixer.music.play(-1)           
+
+               
+        
+        click = False
+        for event in pygame.event.get():
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        pygame.display.update()
+        mainClock.tick(60)
 
 # Intent: Closes the game window
 def Exit():
@@ -452,6 +556,188 @@ def change_action(action_var,frame,new_value):
         frame = 0
     return action_var,frame
 
+def continue_screen(username, level):
+    # click variable to detect when the user clicks a button
+    click = False
+    running = True
+    while running:
+
+        #screen.fill(Baby_Blue)
+        screen.blit(ldr_image, (0, 0))
+
+        draw_text('Continue Screen', font, black, screen, 20, 20)
+
+        # gets the x and y positions of the mouse and puts them
+        # into our variables mx, my
+        mx, my = pygame.mouse.get_pos()
+
+        # Creation of our buttons
+        # x, y, length, height
+        button_1 = pygame.Rect(50, 100, 160, 40) # old 50,100,150,50
+        button_2 = pygame.Rect(50, 200, 160, 40) # old 50,200,150,50
+
+        # checking for collisions
+        if button_1.collidepoint((mx, my)):
+            if click:
+                location = [0,0]
+                if level == '1':
+                    level1(location, username, '2')
+                elif level == '2':
+                    level1(location, username, '3')
+                elif level == '3':
+                    level1(location, username, '4')
+                elif level == '4':
+                    level1(location, username, '5')
+        if button_2.collidepoint((mx, my)):
+            if click:
+                if level == '1':
+                    SaveGame(username, [0,0], '2')
+                    main_menu(username)
+                elif level == '2':
+                    SaveGame(username, [0,0], '3')
+                    main_menu(username)
+                elif level == '3':
+                    SaveGame(username, [0,0], '4')
+                    main_menu(username)
+                elif level == '4':
+                    SaveGame(username, [0,0], '5')
+                    main_menu(username)
+
+        # renders the buttons
+        #pygame.draw.rect(screen, (255,255,255), button_1)
+        draw_text("Continue", button_font, black, screen, 50, 100)
+
+        #pygame.draw.rect(screen, (255,255,255), button_2)
+        draw_text("Exit", button_font, black, screen, 50, 200)
+
+        # must reset the click variable before every event
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            # case when the user clicks onto a button
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                
+            pygame.display.update()
+            mainClock.tick(60) # framerate of the game
+
+def end_screen(username):
+    # click variable to detect when the user clicks a button
+    click = False
+    running = True
+    while running:
+
+        #screen.fill(Baby_Blue)
+        screen.blit(ldr_image, (0, 0))
+
+        draw_text('End of Game', font, black, screen, 20, 20)
+        draw_text("Congratulations for beating", button_font, black, screen, 50, 100)
+        draw_text("the game!", button_font, black, screen, 50, 150)
+
+        # gets the x and y positions of the mouse and puts them
+        # into our variables mx, my
+        mx, my = pygame.mouse.get_pos()
+
+        # Creation of our buttons
+        # x, y, length, height
+        button_1 = pygame.Rect(50, 250, 160, 40) # old 50,100,150,50
+
+        # checking for collisions
+        if button_1.collidepoint((mx, my)):
+            if click:
+                main_menu(username)
+
+        # renders the buttons
+        #pygame.draw.rect(screen, (255,255,255), button_1)
+        draw_text("Exit", button_font, black, screen, 50, 250)
+
+        # must reset the click variable before every event
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            # case when the user clicks onto a button
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                
+            pygame.display.update()
+            mainClock.tick(60) # framerate of the game
+
+# Intent: When the user falls off the map this screen pops up
+#         prompting the user if they want to continue or exit to the main menu
+# Preconditions: User has fallen off the map
+# Postconditions: User restarts level or returns to the main menu
+def death_screen(username, level):
+    # click variable to detect when the user clicks a button
+    click = False
+    running = True
+    while running:
+
+        #screen.fill(Baby_Blue)
+        screen.blit(ldr_image, (0, 0))
+
+        draw_text('Death Screen', font, black, screen, 20, 20)
+        draw_text("You died!", button_font, black, screen, 50, 100)
+
+        # gets the x and y positions of the mouse and puts them
+        # into our variables mx, my
+        mx, my = pygame.mouse.get_pos()
+
+        # Creation of our buttons
+        # x, y, length, height
+        button_1 = pygame.Rect(50, 200, 160, 40) # old 50,100,150,50
+        button_2 = pygame.Rect(50, 250, 160, 40) # old 50,200,150,50
+
+        # checking for collisions
+        if button_1.collidepoint((mx, my)):
+            if click:
+                location = [0,0]
+                if level == '1':
+                    level1(location, username, '1')
+                elif level == '2':
+                    level1(location, username, '2')
+                elif level == '3':
+                    level1(location, username, '3')
+                elif level == '4':
+                    level1(location, username, '4')
+                elif level == '5':
+                    level1(location, username, '5')
+        if button_2.collidepoint((mx, my)):
+            if click:
+                main_menu(username)
+
+        # renders the buttons
+        #pygame.draw.rect(screen, (255,255,255), button_1)
+        draw_text("Restart Level", button_font, black, screen, 50, 200)
+
+        #pygame.draw.rect(screen, (255,255,255), button_2)
+        draw_text("Exit", button_font, black, screen, 50, 250)
+
+        # must reset the click variable before every event
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            # case when the user clicks onto a button
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                
+            pygame.display.update()
+            mainClock.tick(60) # framerate of the game
+
 # Intent: Creates the level in which the player is currently in
 # Preconditions: locations = [0,0]. is the location of the player
 #                username = "". is the name of the user
@@ -459,9 +745,15 @@ def change_action(action_var,frame,new_value):
 #          All passed variables have a default setting so that if the programmer
 #          forgets to pass something the function catches it and makes sure the function
 #          does not crash.
+
+# Return a random RGB color from 0 - 255
+def random_color():
+    random_color_value = random.randrange(35, 255, 3)
+    return random_color_value
+
 def level1(locations = [0,0], username = "", level_num = '1'):
     screen.fill(black)
-
+    
     # like an image! (resolution)
     display = pygame.Surface((300, 200))
 
@@ -514,11 +806,23 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         player_rect.x = locations[0]
         player_rect.y = locations[1]
 
+
+    rand_color_1 = random_color()
+    rand_color_2 = random_color()
+    rand_color_3 = random_color()
+    rand_color_4 = random_color()
+    rand_color_5 = random_color()
+    rand_color_6 = random_color()
+    rand_color_7 = random_color()
+    rand_color_8 = random_color()
+    rand_color_9 = random_color()
+
     running = True
     while running:
         # red, green, blue
-        display.fill((146,244,255))
-
+        # display.fill((146,244,255))
+        display.fill((rand_color_1,rand_color_2,rand_color_3))
+               
         if grass_sound_timer > 0:
             grass_sound_timer -= 1
 
@@ -530,14 +834,17 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         scroll[0] = int(scroll[0])
         scroll[1] = int(scroll[1])
 
-        # Dark Green
-        pygame.draw.rect(display, (7, 80, 75), pygame.Rect(0,120,300,80))
+        # Dark Green rand_color_
+        #pygame.draw.rect(display, (7, 80, 75), pygame.Rect(0,120,300,80))
+        pygame.draw.rect(display, (rand_color_1, rand_color_2, rand_color_3), pygame.Rect(0,120,300,80))
         for background_object in background_objects:
             obj_rect = pygame.Rect(background_object[1][0] - scroll[0]*background_object[0], background_object[1][1] - scroll[1]*background_object[0], background_object[1][2], background_object[1][3])
             if background_object[0] == 0.5:
-                pygame.draw.rect(display, (14, 222,150),obj_rect) # rendering the object a certain value based on its scroll multiplier
+                #pygame.draw.rect(display, (14, 222,150),obj_rect) # rendering the object a certain value based on its scroll multiplier
+                pygame.draw.rect(display, (rand_color_4, rand_color_5,rand_color_6),obj_rect) # rendering the object a certain value based on its scroll multiplier
             else:
-                pygame.draw.rect(display, (9, 91, 85),obj_rect)
+                #pygame.draw.rect(display, (9, 91, 85),obj_rect)
+                pygame.draw.rect(display, (rand_color_7, rand_color_8, rand_color_9),obj_rect)
 
         #scroll[0] += 1 This allows for the camera to continuously move to the right
 
@@ -602,21 +909,6 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         # render the player image onto the screen
         # (50,50) -> x, y (these values are inverted)
         display.blit(pygame.transform.flip(player_img,player_flip,False),(player_rect.x-scroll[0],player_rect.y-scroll[1]))
-
-
-        # This if-elif tree checks to
-        # see if the user has reached the end of the level they are in
-        # IF they reached the end of the level we call the continue screen
-        if level_num == '1':
-            pass
-        elif level_num == '2':
-            pass
-        elif level_num == '3':
-            pass
-        elif level_num == '4':
-            pass
-        elif level_num == '5':
-            pass
         
         # Catches what buttons the player presses and performs those actions
         for event in pygame.event.get():
@@ -637,7 +929,18 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                 if event.key == K_RIGHT:
                     moving_right = True
                 if event.key == K_ESCAPE:
-                    running = False
+
+                    player_location = []
+                    player_location.append(int(player_rect.x))
+                    player_location.append(int(player_rect.y))
+
+                    pause_game_screen(username, player_location, level_num)
+
+                    # fixing moving on own bug
+                    moving_right = False
+                    moving_left = False
+
+
                 if event.key == K_LEFT:
                     moving_left = True
                 if event.key == K_UP:
@@ -649,16 +952,60 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                     moving_right = False
                 if event.key == K_LEFT:
                     moving_left = False
+
+        
+        # This if-elif tree checks to
+        # see if the user has reached the end of the level they are in
+        # IF they reached the end of the level we call the continue screen
+        # This branch also checks to see if the player fell off the map
+        if level_num == '1':
+            if player_rect.x >= 2271 and player_rect.y == 131:
+                pygame.mixer.music.fadeout(1000)
+                continue_screen(username, level_num)
+            elif player_rect.y >= 226:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
+        elif level_num == '2':
+            if player_rect.x >= 4721 and player_rect.y == 99:
+                pygame.mixer.music.fadeout(1000)
+                continue_screen(username, level_num)
+            elif player_rect.y >= 333:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
+        elif level_num == '3':
+            if player_rect.x >= 4557 and player_rect.y == 67:
+                pygame.mixer.music.fadeout(1000)
+                continue_screen(username, level_num)
+            elif player_rect.y >= 333:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
+        elif level_num == '4':
+            if player_rect.x >= 4741 and player_rect.y == 291:
+                pygame.mixer.music.fadeout(1000)
+                continue_screen(username, level_num)
+            elif player_rect.y >= 333:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
+        elif level_num == '5':
+            if player_rect.x >= 4699 and player_rect.y == 35:
+                pygame.mixer.music.fadeout(1000)
+                end_screen(username)
+            elif player_rect.y >= 333:
+                pygame.mixer.music.fadeout(1000)
+                death_screen(username, level_num)
             
         # changes the size of my smaller image to be the size
         # of the new image
 
+<<<<<<< HEAD
+=======
+        # coin_image = pygame.image.load('images/coin.png')
+        # display.blit(coin_image, (100,19))
+
+>>>>>>> 7c5f0560d4ae2dc967a81ddd6d8fd65d91aee613
         surf = pygame.transform.scale(display, res)
         screen.blit(surf, (0, 0))
 
         pygame.display.update()
         mainClock.tick(60)
-
-    
-
     pygame.mixer.music.fadeout(500)

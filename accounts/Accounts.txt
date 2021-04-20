@@ -7,3 +7,6 @@ sandstorm
 isaac
 12345
 yes
+isaac
+1234
+yes

@@ -92,13 +92,28 @@ def create_account_win():
 
   # Handles writing to the file when a new account is created, also possible input errors that might occur
   def account_creation():
-
     # Open the accounts file to append username and password to the end
     
     name = createNameEnt.get()
     passw = createPassEnt.get()
     question = securityQuestionEnt.get()
 
+
+    file1 = open("accounts\Accounts.txt", "r")
+    while True:
+      fileUname = file1.readline()
+      if(fileUname == (name + '\n')):
+        tooLongLabel.place_forget()
+        entryEmpty.place_forget()
+        uNameExistsLabel.place(x = 240, y = 90)
+        return
+      elif not fileUname:
+        break
+      else:
+        file1.readline()
+        file1.readline()
+
+    file1.close()
     if len(name) > 15 or len(passw) > 15 or len(question) > 15:
       entryEmpty.place_forget()
       tooLongLabel.place(x = 240, y = 90)
@@ -108,6 +123,7 @@ def create_account_win():
       tooLongLabel.place_forget()
       entryEmpty.place(x = 240, y = 90)
 
+    
     # Creation Success Condition
     else:
       file1 = open("accounts\Accounts.txt", "a")
@@ -134,6 +150,7 @@ def create_account_win():
   labelP = tk.Label(newWin, text = "Password:"); labelP.place(x = 20, y = 130)
   labelQ = tk.Label(newWin, text = "Security Question: What is your favorite song?"); labelQ.place(x = 20, y = 200)
   tooLongLabel = tk.Label(newWin, text = "No entry longer than 15 characters, please")
+  uNameExistsLabel = tk.Label(newWin, text = "Username already exists")
   entryEmpty = tk.Label(newWin, text = "Please fill all entries")
 
   createNameEnt = tk.Entry(newWin, width = 12, font = fontStyle); createNameEnt.place(x = 20, y = 80)

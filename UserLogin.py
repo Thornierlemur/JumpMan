@@ -8,7 +8,7 @@ name = ""
 
 # Intent: Function to center Tkinter window in center of the currently focused screen
 # Preconditions: Parameters root = window, w = width, h = hieght 
-# Post condition: Display a window in the center of screen
+# Postcondition: Display a window in the center of screen
 # Example center_window(root,500,500) , displays the specified window at center with 
 # a width and heigh of 500
 def center_window(root, w, h):
@@ -21,15 +21,13 @@ def center_window(root, w, h):
 # Creating window element and setting the title
 logWin = tk.Tk()
 logWin.title("Jump Man")
-#logWin.geometry("600x400+468+132")
 center_window(logWin,600,300)
 
-
-# Building the appearance of the log in window before it appears. Also contains the function that handles
-# how the user signs in
+# Intent: Building the appearance of the log in window before it appears. 
+# Also contains the function that handles how the user signs in
 def log_in_win():
 
-  # Define function for getting username and password from entries and handling errors that may occur
+  # Intent: Define function for getting username and password from entries and handling errors that may occur
   def sign_in():
 
     username = userNameEnt.get()
@@ -86,12 +84,11 @@ def log_in_win():
   # running the window (doesn't work without this)
   logWin.mainloop()
 
-
-# Building the appearance of the log in window before it appears. Also contains the function that handles
-# how the user creates their account
+# Intent: Building the appearance of the log in window before it appears. 
+# Also contains the function that handles how the user creates their account.
 def create_account_win():
 
-  # Handles writing to the file when a new account is created, also possible input errors that might occur
+  # Intent: Handles writing to the file when a new account is created, also possible input errors that might occur
   def account_creation():
 
     # Open the accounts file to append username and password to the end
@@ -146,9 +143,10 @@ def create_account_win():
   newWin.mainloop
 
 
+# Intent: Window that shows up when a user clicks "Change Password" allows users to change a forgetten password.
 def change_password_window():
 
-  # Function to hide labels so they do not overlap
+  # Intent: Hide labels from view to avoid clutter 
   def hideAllLabels():
     labelINCP.place_forget()
     labelINCQ.place_forget()
@@ -156,7 +154,8 @@ def change_password_window():
     labelTooLong.place_forget()
     labelDifPass.place_forget()
     labelEmptyEntry.place_forget()
-
+  
+  # Intent: Main fuction to grab user infomation such as username, password, new password, and security question.
   def change_pass():
     # Get all data from entries
     uName = currentUserEnt.get()
@@ -261,6 +260,7 @@ def change_password_window():
 
   newPassWin.mainloop
 
+# Intent: Function that grab the users username and return its if succesful or blank if not.
 def get_user_name():
   global name
 

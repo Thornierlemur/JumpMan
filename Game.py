@@ -146,19 +146,15 @@ def main_menu(username):
 # Postcondition: The "Pause screen" will show up on the users screen while in game
 #                and allows for the user to do several operations if wanted.
 def pause_game_screen(username = "", locations = [0,0], level_num=""):
-   
-
     #Pause Menu image location and its rect
     myimage = pygame.image.load("images/pausemenu.png")
     imagerect = pygame.Rect(255, 215, 350, 240)
     click_sound = pygame.mixer.Sound('audio/click.wav')
 
-
     running = True
     click = False
 
-    while running:
-        
+    while running: 
         #add image to screen
         screen.blit(myimage, imagerect)
         
@@ -198,8 +194,7 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
                 SaveGame(username, player_location, level_num)
 
                 draw_text('SAVED!', title_font, black, screen, 285, 100)
-
-
+            
         if exit_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
@@ -218,8 +213,6 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
                 #print("clicked")
                 pygame.mixer.music.play(-1)           
 
-               
-        
         # Checks for mouse click
         click = False
         for event in pygame.event.get():
@@ -721,7 +714,7 @@ def death_screen(username, level):
 #          forgets to pass something the function catches it and makes sure the function
 #          does not crash.
 
-# Intent: Return a random RGB color from 0 - 255
+# Intent: Return a random RGB color from 35 - 255
 def random_color():
     random_color_value = random.randrange(35, 255, 3)
     return random_color_value

@@ -18,6 +18,7 @@ screen = pygame.display.set_mode(res, 0, 32)
 
 # Fonts used
 font = pygame.font.SysFont(None, 20)
+
 #button_font = pygame.font.SysFont(None, 50)
 button_font = pygame.font.Font("fonts/ka1.ttf", 30)
 title_font = pygame.font.Font("fonts/ka1.ttf", 50)
@@ -35,6 +36,7 @@ white = (255,255,255)
 #         to the screen.
 # Preconditions: All variables are passed legal data
 #                when the function is called
+# Postcondition: Draws text onto the screen
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
     textrect = textobj.get_rect()
@@ -139,7 +141,10 @@ def main_menu(username):
 
 
 
-#Creates pause menu when the "esc" key is pressed
+# intent: Creates pause menu when the "esc" key is pressed
+# Preconditions: All variables are assigned predetermined values to not cause error
+# Postcondition: The "Pause screen" will show up on the users screen while in game
+#                and allows for the user to do several operations if wanted.
 def pause_game_screen(username = "", locations = [0,0], level_num=""):
    
 
@@ -161,25 +166,12 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
         
         draw_text('PAUSED', font, (0, 0, 0), screen, 20, 20)
 
+        # Creating the buttons
         continue_button = pygame.Rect(320, 246, 160, 25) # old 50,100,200,50
-        #pygame.draw.rect(screen, (255,255,255),continue_button)
-        #draw_text('CONTINUE', pause_game_font, (255, 255, 255), screen, 290, 225)
-
         save_button = pygame.Rect(310, 275, 175, 24) # old 50,100,200,50
-        #pygame.draw.rect(screen, (255,255,255),save_button)
-        #draw_text('SAVE', font1, (255, 255, 255), screen, 325, 275)
-        
         exit_button = pygame.Rect(350, 305, 88, 25) # old 50,100,200,50
-        #pygame.draw.rect(screen, (255,255,255),exit_button)
-        #draw_text('EXIT', pause_game_font, (255, 255, 255), screen, 340, 325)
-
         mute_button = pygame.Rect(285, 332, 88, 25) # old 50,100,200,50
-        #pygame.draw.rect(screen, (255,255,255),mute_button)
-        #draw_text('EXIT', pause_game_font, (255, 255, 255), screen, 340, 325)
-
         unmute_button = pygame.Rect(390, 332, 130, 25) # old 50,100,200,50
-        #pygame.draw.rect(screen, (255,255,255),unmute_button)
-        #draw_text('EXIT', pause_game_font, (255, 255, 255), screen, 340, 325)
 
         player_rect = pygame.Rect(100, 100, 5, 13)
 
@@ -189,6 +181,7 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
             player_rect.x = locations[0]
             player_rect.y = locations[1]   
 
+        # Checking if the mouse click collides with the button
         if continue_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
@@ -227,6 +220,7 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
 
                
         
+        # Checks for mouse click
         click = False
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
@@ -237,6 +231,7 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
         mainClock.tick(60)
 
 # Intent: Closes the game window
+# Postcondition: Closes the game window (application closes)
 def Exit():
     pygame.quit()
     sys.exit()
@@ -352,12 +347,11 @@ def LeaderBoards():
 
 
     while running:
-        #screen.fill(Baby_Blue)
+
         screen.blit(ldr_image, (0, 0))
         draw_text('Leaderboards', title_font, black, screen, 136, 20)
 
         mainWindow = pygame.Rect(150, 35, 300, 240)
-        #pygame.draw.rect(screen, (255, 255, 255), mainWindow)
 
         # gets the x and y positions of the mouse and puts them
         # into our variables mx, my
@@ -365,41 +359,24 @@ def LeaderBoards():
 
         button_1 = pygame.Rect(175, 50, 150, 50)
 
-        #pygame.draw.rect(screen, (255, 255, 255), button_1)
-        
-        #draw_text("1. " + playerArray[0].player.strip() + "-" + playerArray[0].score.strip(), button_font, black, screen, 150, 150) # old 175,50
-        
+        # Drawing the leaderboards onto the screen
         draw_text("1. " + playerArray[0].player.strip(), button_font, black, screen, 136, 150) # old 175,50
         draw_text(playerArray[0].score.strip(), button_font, black, screen, 540, 150)
 
 
         button_2 = pygame.Rect(175, 90, 150, 50)
 
-        #pygame.draw.rect(screen, (255, 255, 255), button_2)
-        #draw_text("2. " + playerArray[1].player.strip() + "-" + playerArray[1].score.strip(), button_font, black, screen, 150, 200) # old 175,50
-
         draw_text("2. " + playerArray[1].player.strip(), button_font, black, screen, 136, 200) # old 175,50
         draw_text(playerArray[1].score.strip(), button_font, black, screen, 540, 200)
 
 
-        #button_3 = pygame.Rect(175, 130, 150, 50)
-        #pygame.draw.rect(screen, (255, 255, 255), button_3)
-        #draw_text("3. " + playerArray[2].player.strip() + "-" + playerArray[2].score.strip(), button_font, black, screen, 150,250) # old 175,50
-
         draw_text("3. " + playerArray[2].player.strip(), button_font, black, screen, 136, 250) # old 175,50
         draw_text(playerArray[2].score.strip(), button_font, black, screen, 540, 250)
 
-        #button_4 = pygame.Rect(175, 170, 150, 50)
 
-        #pygame.draw.rect(screen, (255, 255, 255), button_4)
-        #draw_text("4. " + playerArray[3].player.strip() + "-" + playerArray[3].score.strip(), button_font, black, screen, 150,300) # old 175,50
         draw_text("4. " + playerArray[3].player.strip(), button_font, black, screen, 136, 300) # old 175,50
         draw_text(playerArray[3].score.strip(), button_font, black, screen, 540, 300)
 
-        #button_5 = pygame.Rect(175, 210, 150, 50)
-
-        #pygame.draw.rect(screen, (255, 255, 255), button_5)
-        #draw_text("5. " + playerArray[4].player.strip() + "-" + playerArray[4].score.strip(), button_font, black, screen, 150,350) # old 175,50
 
         draw_text("5. " + playerArray[4].player.strip(), button_font, black, screen, 136, 350) # old 175,50
         draw_text(playerArray[4].score.strip(), button_font, black, screen, 540, 350)
@@ -446,11 +423,7 @@ def SaveGame(user = "", location = [0,0], level=""):
 # Precondition: user = "", default case in case the programmer by accident forgets
 #               to pass the username.
 def LoadGame(user = ""):
-    # Need to find a way to see if a file exists or not.
-    # If it does not exist then we can do nothing 
-    # But if it does exist then we load the users saved file
 
-    #f = open(user+'.txt', "r+")
     #checks to see if fileexists
     fileexists = path.exists("accounts/savefiles/" + user + ".txt")
     if fileexists:
@@ -489,6 +462,7 @@ def LoadGame(user = ""):
 
 
 # Intent: Helper function that tests for collisions of the player
+# Postconditions: Gives the main game loop the collisions that are currently happening
 def collision_test(rect, tiles):
     hit_list = []
     for tile in tiles:
@@ -627,6 +601,7 @@ def continue_screen(username, level):
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
 
+# Intent: Displays to the user the end screen for beating the game
 def end_screen(username):
     # click variable to detect when the user clicks a button
     click = False
@@ -746,11 +721,17 @@ def death_screen(username, level):
 #          forgets to pass something the function catches it and makes sure the function
 #          does not crash.
 
-# Return a random RGB color from 0 - 255
+# Intent: Return a random RGB color from 0 - 255
 def random_color():
     random_color_value = random.randrange(35, 255, 3)
     return random_color_value
 
+# Intent: Create the level based on the parameters based
+# Preconditions: locations = [0,0] location of the player
+#                username = "" name of the player
+#                level_num = '1' the level we are supposed to load
+#                All preconditions are intentionally pre given values just in case
+#                a programmer forgets to pass the function paramters. (will start at level 1)
 def level1(locations = [0,0], username = "", level_num = '1'):
     screen.fill(black)
     
@@ -996,13 +977,6 @@ def level1(locations = [0,0], username = "", level_num = '1'):
             
         # changes the size of my smaller image to be the size
         # of the new image
-
-<<<<<<< HEAD
-=======
-        # coin_image = pygame.image.load('images/coin.png')
-        # display.blit(coin_image, (100,19))
-
->>>>>>> 7c5f0560d4ae2dc967a81ddd6d8fd65d91aee613
         surf = pygame.transform.scale(display, res)
         screen.blit(surf, (0, 0))
 

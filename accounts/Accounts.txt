@@ -7,6 +7,3 @@ sandstorm
 isaac
 12345
 yes
-Crook
-45
-/audio/jump.wav

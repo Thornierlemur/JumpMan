@@ -3,6 +3,7 @@ from pygame.locals import *
 import os.path
 from os import path
 import random
+import pygame.freetype
 
 # Setup pygame/window
 mainClock = pygame.time.Clock()
@@ -18,8 +19,7 @@ screen = pygame.display.set_mode(res, 0, 32)
 
 # Fonts used
 font = pygame.font.SysFont(None, 20)
-
-#button_font = pygame.font.SysFont(None, 50)
+font2 = pygame.font.SysFont(None, 30)
 button_font = pygame.font.Font("fonts/ka1.ttf", 30)
 title_font = pygame.font.Font("fonts/ka1.ttf", 50)
 
@@ -76,11 +76,11 @@ def main_menu(username):
 
         # Creation of our buttons
         # x, y, length, height
-        button_1 = pygame.Rect(50, 100, 200, 40)
-        button_2 = pygame.Rect(50, 200, 100, 40) 
-        button_3 = pygame.Rect(50, 300, 280, 40) 
-        button_4 = pygame.Rect(50, 400, 310, 40)
-        button_5 = pygame.Rect(50, 500, 100, 40)
+        button_1 = pygame.Rect(50, 100, 200, 40) # old 50,100,200,50
+        button_2 = pygame.Rect(50, 200, 100, 40) # old 50,200,200,50
+        button_3 = pygame.Rect(50, 300, 280, 40) # old 50,300,220,50
+        button_4 = pygame.Rect(50, 400, 310, 40) # old 300,100,260,50
+        button_5 = pygame.Rect(50, 500, 100, 40) # old 300,200,200,50
 
         # checking for collisions
         if button_1.collidepoint((mx, my)):
@@ -112,10 +112,11 @@ def main_menu(username):
         draw_text("Level Select", button_font, (0,0,0), screen, 50, 300)
 
         #pygame.draw.rect(screen, (255,255,255), button_4)
-        draw_text("LeaderBoards", button_font, (0,0,0), screen, 50, 400)
+        draw_text("LeaderBoards", button_font, (0,0,0), screen, 50, 400) # old 300,100
 
         #pygame.draw.rect(screen, (255,255,255), button_5)
-        draw_text("Exit", button_font, (0,0,0), screen, 50, 500) 
+        draw_text("Exit", button_font, (0,0,0), screen, 50, 500) # old 300,200
+
 
         # Welcome message
         draw_text("Hello " + str(username) + "!", button_font, (0, 0, 0), screen, 525, 550)
@@ -138,33 +139,39 @@ def main_menu(username):
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
 
+
+
 # intent: Creates pause menu when the "esc" key is pressed
 # Preconditions: All variables are assigned predetermined values to not cause error
 # Postcondition: The "Pause screen" will show up on the users screen while in game
 #                and allows for the user to do several operations if wanted.
-def pause_game_screen(username = "", locations = [0,0], level_num=""):
+def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""):
+   
+
     #Pause Menu image location and its rect
     myimage = pygame.image.load("images/pausemenu.png")
     imagerect = pygame.Rect(255, 215, 350, 240)
     click_sound = pygame.mixer.Sound('audio/click.wav')
 
+
     running = True
     click = False
 
-    while running: 
+    while running:
+        
         #add image to screen
         screen.blit(myimage, imagerect)
         
         mx, my = pygame.mouse.get_pos()
         
-        draw_text('PAUSED', font, (0, 0, 0), screen, 20, 20)
+        draw_text('PAUSED', font, (0, 0, 0), screen, 20, 50)
 
         # Creating the buttons
-        continue_button = pygame.Rect(320, 246, 160, 25) 
-        save_button = pygame.Rect(310, 275, 175, 24)
-        exit_button = pygame.Rect(350, 305, 88, 25) 
-        mute_button = pygame.Rect(285, 332, 88, 25)
-        unmute_button = pygame.Rect(390, 332, 130, 25)
+        continue_button = pygame.Rect(320, 246, 160, 25) # old 50,100,200,50
+        save_button = pygame.Rect(310, 275, 175, 24) # old 50,100,200,50
+        exit_button = pygame.Rect(350, 305, 88, 25) # old 50,100,200,50
+        mute_button = pygame.Rect(285, 332, 88, 25) # old 50,100,200,50
+        unmute_button = pygame.Rect(390, 332, 130, 25) # old 50,100,200,50
 
         player_rect = pygame.Rect(100, 100, 5, 13)
 
@@ -188,15 +195,17 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
                 player_location = []
                 player_location.append(int(player_rect.x))
                 player_location.append(int(player_rect.y))  
-                SaveGame(username, player_location, level_num)
+                SaveGame(username, player_location, level_num, score)
 
                 draw_text('SAVED!', title_font, black, screen, 285, 100)
-            
+
+
         if exit_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
                 pygame.mixer.music.fadeout(1000)
-                main_menu(username)        
+                main_menu(username)
+                get_score(score, username)     
                 return False
 
         if mute_button.collidepoint((mx, my)):
@@ -210,6 +219,8 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
                 #print("clicked")
                 pygame.mixer.music.play(-1)           
 
+               
+        
         # Checks for mouse click
         click = False
         for event in pygame.event.get():
@@ -246,11 +257,11 @@ def LevelSelect(username):
 
         # Creation of our buttons
         # x, y, length, height
-        button_1 = pygame.Rect(50, 100, 160, 40) 
-        button_2 = pygame.Rect(50, 200, 160, 40) 
-        button_3 = pygame.Rect(50, 300, 160, 40) 
-        button_4 = pygame.Rect(50, 400, 160, 40) 
-        button_5 = pygame.Rect(50, 500, 160, 40) 
+        button_1 = pygame.Rect(50, 100, 160, 40) # old 50,100,150,50
+        button_2 = pygame.Rect(50, 200, 160, 40) # old 50,200,150,50
+        button_3 = pygame.Rect(50, 300, 160, 40) # old 50,300,150,50
+        button_4 = pygame.Rect(50, 400, 160, 40) # old 300,100,150,50
+        button_5 = pygame.Rect(50, 500, 160, 40) # old 300,200,150,50
 
         # checking for collisions
         if button_1.collidepoint((mx, my)):
@@ -285,9 +296,10 @@ def LevelSelect(username):
         draw_text("Level 3", button_font, black, screen, 50, 300)
 
         #pygame.draw.rect(screen, (255,255,255), button_4)
-        draw_text("Level 4", button_font, black, screen, 50, 400) 
+        draw_text("Level 4", button_font, black, screen, 50, 400) # old 300,100
+
         #pygame.draw.rect(screen, (255,255,255), button_5)
-        draw_text("Level 5", button_font, black, screen, 50, 500) 
+        draw_text("Level 5", button_font, black, screen, 50, 500) # old 300,200
 
         # must reset the click variable before every event
         click = False
@@ -322,6 +334,7 @@ def LeaderBoards():
     playerArray = []
 
     file1 = open("accounts\leaderboard.txt", "r")
+
     # Read players and scores from file
     while True:
         tempName = file1.readline()
@@ -332,7 +345,10 @@ def LeaderBoards():
         tempPlayer = playerAndScore(tempName, tempScore)
         playerArray.append(tempPlayer)
 
+
+
     while running:
+
         screen.blit(ldr_image, (0, 0))
         draw_text('Leaderboards', title_font, black, screen, 136, 20)
 
@@ -345,21 +361,27 @@ def LeaderBoards():
         button_1 = pygame.Rect(175, 50, 150, 50)
 
         # Drawing the leaderboards onto the screen
-        draw_text("1. " + playerArray[0].player.strip(), button_font, black, screen, 136, 150) 
+        draw_text("1. " + playerArray[0].player.strip(), button_font, black, screen, 136, 150) # old 175,50
         draw_text(playerArray[0].score.strip(), button_font, black, screen, 540, 150)
 
+
         button_2 = pygame.Rect(175, 90, 150, 50)
-        draw_text("2. " + playerArray[1].player.strip(), button_font, black, screen, 136, 200)
+
+        draw_text("2. " + playerArray[1].player.strip(), button_font, black, screen, 136, 200) # old 175,50
         draw_text(playerArray[1].score.strip(), button_font, black, screen, 540, 200)
 
-        draw_text("3. " + playerArray[2].player.strip(), button_font, black, screen, 136, 250)
+
+        draw_text("3. " + playerArray[2].player.strip(), button_font, black, screen, 136, 250) # old 175,50
         draw_text(playerArray[2].score.strip(), button_font, black, screen, 540, 250)
 
-        draw_text("4. " + playerArray[3].player.strip(), button_font, black, screen, 136, 300) 
+
+        draw_text("4. " + playerArray[3].player.strip(), button_font, black, screen, 136, 300) # old 175,50
         draw_text(playerArray[3].score.strip(), button_font, black, screen, 540, 300)
 
-        draw_text("5. " + playerArray[4].player.strip(), button_font, black, screen, 136, 350) 
+
+        draw_text("5. " + playerArray[4].player.strip(), button_font, black, screen, 136, 350) # old 175,50
         draw_text(playerArray[4].score.strip(), button_font, black, screen, 540, 350)
+
 
         # must reset the click variable before every event
         click = False
@@ -383,7 +405,7 @@ def LeaderBoards():
 #                location = [0,0]. Holds the users location
 #                level = "". Holds the level of the player
 # Poscondition: the game is saved to a file
-def SaveGame(user = "", location = [0,0], level=""):
+def SaveGame(user = "", location = [0,0], level="", score = ""):
     # open a file named the username.
     # If the file does not exist it will create it
     # If the file already exists, it truncates the previous version
@@ -396,6 +418,8 @@ def SaveGame(user = "", location = [0,0], level=""):
     f.write(x+','+y+','+level)
 
     f.close()
+
+    get_score(score, username)
 
 
 # Intent: This helper function allows for the programmer to load a game
@@ -509,7 +533,7 @@ def change_action(action_var,frame,new_value):
         frame = 0
     return action_var,frame
 
-def continue_screen(username, level):
+def continue_screen(username, level, score):
     # click variable to detect when the user clicks a button
     click = False
     running = True
@@ -526,34 +550,38 @@ def continue_screen(username, level):
 
         # Creation of our buttons
         # x, y, length, height
-        button_1 = pygame.Rect(50, 100, 160, 40) 
-        button_2 = pygame.Rect(50, 200, 160, 40) 
+        button_1 = pygame.Rect(50, 100, 160, 40) # old 50,100,150,50
+        button_2 = pygame.Rect(50, 200, 160, 40) # old 50,200,150,50
 
         # checking for collisions
         if button_1.collidepoint((mx, my)):
             if click:
                 location = [0,0]
                 if level == '1':
+                    get_score(score, username)
                     level1(location, username, '2')
                 elif level == '2':
+                    get_score(score, username)
                     level1(location, username, '3')
                 elif level == '3':
+                    get_score(score, username)
                     level1(location, username, '4')
                 elif level == '4':
+                    get_score(score, username)
                     level1(location, username, '5')
         if button_2.collidepoint((mx, my)):
             if click:
                 if level == '1':
-                    SaveGame(username, [0,0], '2')
+                    SaveGame(username, [0,0], '2', score)
                     main_menu(username)
                 elif level == '2':
-                    SaveGame(username, [0,0], '3')
+                    SaveGame(username, [0,0], '3', score)
                     main_menu(username)
                 elif level == '3':
-                    SaveGame(username, [0,0], '4')
+                    SaveGame(username, [0,0], '4', score)
                     main_menu(username)
                 elif level == '4':
-                    SaveGame(username, [0,0], '5')
+                    SaveGame(username, [0,0], '5', score)
                     main_menu(username)
 
         # renders the buttons
@@ -692,19 +720,24 @@ def death_screen(username, level):
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
 
-# Intent: Return a random RGB color from 35 - 255
+
+# Intent: Return a random RGB color from 0 - 255
 def random_color():
     random_color_value = random.randrange(35, 255, 3)
     return random_color_value
 
-# Intent: Creates the level in which the player is currently in
-# Preconditions: locations = [0,0]. is the location of the player
-#                username = "". is the name of the user
-#                level_num = '1'. is the level the user is in.
-#          All passed variables have a default setting so that if the programmer
-#          forgets to pass something the function catches it and makes sure the function
-#          does not crash.
+
+# Intent: Create the level based on the parameters based
+# Preconditions: locations = [0,0] location of the player
+#                username = "" name of the player
+#                level_num = '1' the level we are supposed to load
+#                All preconditions are intentionally pre given values just in case
+#                a programmer forgets to pass the function paramters. (will start at level 1)
 def level1(locations = [0,0], username = "", level_num = '1'):
+
+    # Keeps track of the players score
+    score = 0
+
     screen.fill(black)
     
     # like an image! (resolution)
@@ -772,6 +805,13 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 
     running = True
     while running:
+
+        # While the player is alive their score will be 
+        # incrementing by 5's
+        score += 1
+
+        # red, green, blue
+        # display.fill((146,244,255))
         display.fill((rand_color_1,rand_color_2,rand_color_3))
                
         if grass_sound_timer > 0:
@@ -785,6 +825,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         scroll[0] = int(scroll[0])
         scroll[1] = int(scroll[1])
 
+        # rand_color_
         pygame.draw.rect(display, (rand_color_1, rand_color_2, rand_color_3), pygame.Rect(0,120,300,80))
         for background_object in background_objects:
             obj_rect = pygame.Rect(background_object[1][0] - scroll[0]*background_object[0], background_object[1][1] - scroll[1]*background_object[0], background_object[1][2], background_object[1][3])
@@ -793,7 +834,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
             else:
                 pygame.draw.rect(display, (rand_color_7, rand_color_8, rand_color_9),obj_rect)
 
-        #scroll[0] += 1 This allows for the camera to continuously move to the right
+
 
         tile_rects = []
         y = 0
@@ -857,6 +898,10 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         # (50,50) -> x, y (these values are inverted)
         display.blit(pygame.transform.flip(player_img,player_flip,False),(player_rect.x-scroll[0],player_rect.y-scroll[1]))
         
+        # Rendering the score onto the screen
+        score_text = font2.render("Score: " + str(score), True, black)
+        display.blit(score_text, (0, 0) )
+
         # Catches what buttons the player presses and performs those actions
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -870,18 +915,19 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                     player_location.append(int(player_rect.x))
                     player_location.append(int(player_rect.y))
                         
-                    SaveGame(username, player_location, level_num)
+                    SaveGame(username, player_location, level_num, str(score))
                 if event.key == K_e:
                     pygame.mixer.music.play(-1)
                 if event.key == K_RIGHT:
                     moving_right = True
+                    score += 2
                 if event.key == K_ESCAPE:
 
                     player_location = []
                     player_location.append(int(player_rect.x))
                     player_location.append(int(player_rect.y))
 
-                    pause_game_screen(username, player_location, level_num)
+                    pause_game_screen(username, player_location, level_num, str(score))
 
                     # fixing moving on own bug
                     moving_right = False
@@ -890,7 +936,9 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 
                 if event.key == K_LEFT:
                     moving_left = True
+                    score += 2
                 if event.key == K_UP:
+                    score += 5
                     if air_timer < 6:
                         jump_sound.play()
                         player_y_momentum = -5
@@ -908,28 +956,28 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         if level_num == '1':
             if player_rect.x >= 2271 and player_rect.y == 131:
                 pygame.mixer.music.fadeout(1000)
-                continue_screen(username, level_num)
+                continue_screen(username, level_num, str(score))
             elif player_rect.y >= 226:
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
         elif level_num == '2':
             if player_rect.x >= 4721 and player_rect.y == 99:
                 pygame.mixer.music.fadeout(1000)
-                continue_screen(username, level_num)
+                continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
         elif level_num == '3':
             if player_rect.x >= 4557 and player_rect.y == 67:
                 pygame.mixer.music.fadeout(1000)
-                continue_screen(username, level_num)
+                continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
         elif level_num == '4':
             if player_rect.x >= 4741 and player_rect.y == 291:
                 pygame.mixer.music.fadeout(1000)
-                continue_screen(username, level_num)
+                continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
@@ -941,6 +989,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
             
+        
         # changes the size of my smaller image to be the size
         # of the new image
         surf = pygame.transform.scale(display, res)
@@ -949,3 +998,69 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         pygame.display.update()
         mainClock.tick(60)
     pygame.mixer.music.fadeout(500)
+
+
+# Intent: This function is supposed to get the users score and update their total score 
+#         in the game. It then will update leaderboard.txt and make sure the top 5 players
+#         are in correct order.
+# Preconditions: score, holds the user score
+#                username, holds the name of the player
+# Postconditions: score will be added to the score.txt file along with its respective user
+def get_score(score, username):
+    f = open('accounts/scores.txt', 'r')
+    content = f.read()
+
+    text = content.split(',')
+
+    for i in range(len(text)):
+        if text[i] == username:
+            player_score = int(text[i+1])
+            player_score += int(score)
+
+            text[i+1] = str(player_score)
+            update_leaderboards()
+            return
+    
+    # If we make it to this line then that means the user was not in the file
+    f2 = open('accounts/scores.txt', 'a')
+    f2.write(str(username) + ',' + str(score))
+    f2.close()
+    update_leaderboards()
+
+
+# Intent: This function updates the leaderboard.txt file
+#         to have the current high scores of the game based on account
+def update_leaderboards():
+    f = open("accounts/scores.txt")
+    
+    content = f.read()
+
+    text = content.split(',')
+
+    users = []
+    scores = []
+
+    # Grabbing each username and score and putting them in their
+    # appropriate arrays
+    for i in range(len(text)):
+        if i % 2 == 0:
+            users.append(str(text[i]))
+        else:
+            scores.append(int(text[i]))
+
+    # Bubble sort the scores
+    for i in range(len(scores) - 1):
+        for j in range(len(scores) - i - 1):
+            if scores[j] > scores[j + 1]:
+                scores[j], scores[j+1] = scores[j+1], scores[j]
+                users[j], users[j+1] = users[j+1], users[j]
+    
+    f2 = open("accounts/leaderboard.txt", "w")
+
+    if len(scores) < 5:
+        for i in range(len(scores)):
+            f2.write(str(users[i]) + ',' + str(scores[i]) + '\n')
+    else:
+        for i in range(5):
+            f2.write(str(users[i]) + ',' + str(scores[i]) + '\n')
+

@@ -145,7 +145,7 @@ def main_menu(username):
 # Preconditions: All variables are assigned predetermined values to not cause error
 # Postcondition: The "Pause screen" will show up on the users screen while in game
 #                and allows for the user to do several operations if wanted.
-def pause_game_screen(username = "", locations = [0,0], level_num=""):
+def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""):
    
 
     #Pause Menu image location and its rect
@@ -195,7 +195,7 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
                 player_location = []
                 player_location.append(int(player_rect.x))
                 player_location.append(int(player_rect.y))  
-                SaveGame(username, player_location, level_num)
+                SaveGame(username, player_location, level_num, score)
 
                 draw_text('SAVED!', title_font, black, screen, 285, 100)
 
@@ -204,7 +204,8 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
             if click:
                 click_sound.play()
                 pygame.mixer.music.fadeout(1000)
-                main_menu(username)        
+                main_menu(username)
+                get_score(score, username)     
                 return False
 
         if mute_button.collidepoint((mx, my)):
@@ -404,7 +405,7 @@ def LeaderBoards():
 #                location = [0,0]. Holds the users location
 #                level = "". Holds the level of the player
 # Poscondition: the game is saved to a file
-def SaveGame(user = "", location = [0,0], level=""):
+def SaveGame(user = "", location = [0,0], level="", score = ""):
     # open a file named the username.
     # If the file does not exist it will create it
     # If the file already exists, it truncates the previous version
@@ -417,6 +418,8 @@ def SaveGame(user = "", location = [0,0], level=""):
     f.write(x+','+y+','+level)
 
     f.close()
+
+    get_score(score, username)
 
 
 # Intent: This helper function allows for the programmer to load a game
@@ -530,7 +533,7 @@ def change_action(action_var,frame,new_value):
         frame = 0
     return action_var,frame
 
-def continue_screen(username, level):
+def continue_screen(username, level, score):
     # click variable to detect when the user clicks a button
     click = False
     running = True
@@ -555,26 +558,30 @@ def continue_screen(username, level):
             if click:
                 location = [0,0]
                 if level == '1':
+                    get_score(score, username)
                     level1(location, username, '2')
                 elif level == '2':
+                    get_score(score, username)
                     level1(location, username, '3')
                 elif level == '3':
+                    get_score(score, username)
                     level1(location, username, '4')
                 elif level == '4':
+                    get_score(score, username)
                     level1(location, username, '5')
         if button_2.collidepoint((mx, my)):
             if click:
                 if level == '1':
-                    SaveGame(username, [0,0], '2')
+                    SaveGame(username, [0,0], '2', score)
                     main_menu(username)
                 elif level == '2':
-                    SaveGame(username, [0,0], '3')
+                    SaveGame(username, [0,0], '3', score)
                     main_menu(username)
                 elif level == '3':
-                    SaveGame(username, [0,0], '4')
+                    SaveGame(username, [0,0], '4', score)
                     main_menu(username)
                 elif level == '4':
-                    SaveGame(username, [0,0], '5')
+                    SaveGame(username, [0,0], '5', score)
                     main_menu(username)
 
         # renders the buttons
@@ -908,7 +915,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                     player_location.append(int(player_rect.x))
                     player_location.append(int(player_rect.y))
                         
-                    SaveGame(username, player_location, level_num)
+                    SaveGame(username, player_location, level_num, str(score))
                 if event.key == K_e:
                     pygame.mixer.music.play(-1)
                 if event.key == K_RIGHT:
@@ -920,7 +927,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                     player_location.append(int(player_rect.x))
                     player_location.append(int(player_rect.y))
 
-                    pause_game_screen(username, player_location, level_num)
+                    pause_game_screen(username, player_location, level_num, str(score))
 
                     # fixing moving on own bug
                     moving_right = False
@@ -949,28 +956,28 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         if level_num == '1':
             if player_rect.x >= 2271 and player_rect.y == 131:
                 pygame.mixer.music.fadeout(1000)
-                continue_screen(username, level_num)
+                continue_screen(username, level_num, str(score))
             elif player_rect.y >= 226:
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
         elif level_num == '2':
             if player_rect.x >= 4721 and player_rect.y == 99:
                 pygame.mixer.music.fadeout(1000)
-                continue_screen(username, level_num)
+                continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
         elif level_num == '3':
             if player_rect.x >= 4557 and player_rect.y == 67:
                 pygame.mixer.music.fadeout(1000)
-                continue_screen(username, level_num)
+                continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
         elif level_num == '4':
             if player_rect.x >= 4741 and player_rect.y == 291:
                 pygame.mixer.music.fadeout(1000)
-                continue_screen(username, level_num)
+                continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
@@ -991,3 +998,69 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         pygame.display.update()
         mainClock.tick(60)
     pygame.mixer.music.fadeout(500)
+
+
+# Intent: This function is supposed to get the users score and update their total score 
+#         in the game. It then will update leaderboard.txt and make sure the top 5 players
+#         are in correct order.
+# Preconditions: score, holds the user score
+#                username, holds the name of the player
+# Postconditions: score will be added to the score.txt file along with its respective user
+def get_score(score, username):
+    f = open('accounts/scores.txt', 'r')
+    content = f.read()
+
+    text = content.split(',')
+
+    for i in range(len(text)):
+        if text[i] == username:
+            player_score = int(text[i+1])
+            player_score += int(score)
+
+            text[i+1] = str(player_score)
+            update_leaderboards()
+            return
+    
+    # If we make it to this line then that means the user was not in the file
+    f2 = open('accounts/scores.txt', 'a')
+    f2.write(str(username) + ',' + str(score))
+    f2.close()
+    update_leaderboards()
+
+
+# Intent: This function updates the leaderboard.txt file
+#         to have the current high scores of the game based on account
+def update_leaderboards():
+    f = open("accounts/scores.txt")
+    
+    content = f.read()
+
+    text = content.split(',')
+
+    users = []
+    scores = []
+
+    # Grabbing each username and score and putting them in their
+    # appropriate arrays
+    for i in range(len(text)):
+        if i % 2 == 0:
+            users.append(str(text[i]))
+        else:
+            scores.append(int(text[i]))
+
+    # Bubble sort the scores
+    for i in range(len(scores) - 1):
+        for j in range(len(scores) - i - 1):
+            if scores[j] > scores[j + 1]:
+                scores[j], scores[j+1] = scores[j+1], scores[j]
+                users[j], users[j+1] = users[j+1], users[j]
+    
+    f2 = open("accounts/leaderboard.txt", "w")
+
+    if len(scores) < 5:
+        for i in range(len(scores)):
+            f2.write(str(users[i]) + ',' + str(scores[i]) + '\n')
+    else:
+        for i in range(5):
+            f2.write(str(users[i]) + ',' + str(scores[i]) + '\n')
+

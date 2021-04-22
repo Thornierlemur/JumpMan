@@ -11,4 +11,4 @@ if player == "":
     exit()
 else:
     import Game
-    Game.main_menu(player)  
+    Game.main_menu(player)

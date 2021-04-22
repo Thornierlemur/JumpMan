@@ -3,6 +3,7 @@ from pygame.locals import *
 import os.path
 from os import path
 import random
+import pygame.freetype
 
 # Setup pygame/window
 mainClock = pygame.time.Clock()
@@ -18,8 +19,7 @@ screen = pygame.display.set_mode(res, 0, 32)
 
 # Fonts used
 font = pygame.font.SysFont(None, 20)
-
-#button_font = pygame.font.SysFont(None, 50)
+font2 = pygame.font.SysFont(None, 30)
 button_font = pygame.font.Font("fonts/ka1.ttf", 30)
 title_font = pygame.font.Font("fonts/ka1.ttf", 50)
 
@@ -164,7 +164,7 @@ def pause_game_screen(username = "", locations = [0,0], level_num=""):
         
         mx, my = pygame.mouse.get_pos()
         
-        draw_text('PAUSED', font, (0, 0, 0), screen, 20, 20)
+        draw_text('PAUSED', font, (0, 0, 0), screen, 20, 50)
 
         # Creating the buttons
         continue_button = pygame.Rect(320, 246, 160, 25) # old 50,100,200,50
@@ -727,6 +727,10 @@ def random_color():
 #                All preconditions are intentionally pre given values just in case
 #                a programmer forgets to pass the function paramters. (will start at level 1)
 def level1(locations = [0,0], username = "", level_num = '1'):
+
+    # Keeps track of the players score
+    score = 0
+
     screen.fill(black)
     
     # like an image! (resolution)
@@ -794,6 +798,11 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 
     running = True
     while running:
+
+        # While the player is alive their score will be 
+        # incrementing by 5's
+        score += 1
+
         # red, green, blue
         # display.fill((146,244,255))
         display.fill((rand_color_1,rand_color_2,rand_color_3))
@@ -882,6 +891,10 @@ def level1(locations = [0,0], username = "", level_num = '1'):
         # (50,50) -> x, y (these values are inverted)
         display.blit(pygame.transform.flip(player_img,player_flip,False),(player_rect.x-scroll[0],player_rect.y-scroll[1]))
         
+        # Rendering the score onto the screen
+        score_text = font2.render("Score: " + str(score), True, black)
+        display.blit(score_text, (0, 0) )
+
         # Catches what buttons the player presses and performs those actions
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -900,6 +913,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                     pygame.mixer.music.play(-1)
                 if event.key == K_RIGHT:
                     moving_right = True
+                    score += 2
                 if event.key == K_ESCAPE:
 
                     player_location = []
@@ -915,7 +929,9 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 
                 if event.key == K_LEFT:
                     moving_left = True
+                    score += 2
                 if event.key == K_UP:
+                    score += 5
                     if air_timer < 6:
                         jump_sound.play()
                         player_y_momentum = -5
@@ -966,6 +982,7 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                 pygame.mixer.music.fadeout(1000)
                 death_screen(username, level_num)
             
+        
         # changes the size of my smaller image to be the size
         # of the new image
         surf = pygame.transform.scale(display, res)

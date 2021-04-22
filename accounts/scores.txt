@@ -2,4 +2,4 @@ isaac,1400
 john,1300
 christian,1200
 Dave,900
-bob,200
+bob,200isaac,73isaac,171isaac,86isaac,63

@@ -414,7 +414,7 @@ def SaveGame(user = "", location = [0,0], level="", score = ""):
 
     f.close()
 
-    get_score(score, username)
+    get_score(score, user)
 
 
 # Intent: This helper function allows for the programmer to load a game
@@ -1002,10 +1002,21 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 #                username, holds the name of the player
 # Postconditions: score will be added to the score.txt file along with its respective user
 def get_score(score, username):
-    f = open('accounts/scores.txt', 'r')
-    content = f.read()
+    f2 = open('accounts/scores.txt', 'r')
 
-    text = content.split(',')
+    content = f2.readlines()
+    f2.close()
+
+    f = open('accounts/scores.txt', 'r')
+
+    name = []
+    score = []
+
+    for i in range(len(content)):
+        name.append(f.readline())
+        score.append(f.readline())
+
+    print(name)
 
     for i in range(len(text)):
         if text[i] == username:

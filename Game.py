@@ -325,27 +325,22 @@ def LeaderBoards():
     click = False
     running = True
 
-    class playerAndScore:
-        def __init__(self, player, score):
-            self.player = player
-            self.score = score
+    f = open("accounts\leaderboard.txt", "r")
+    
+    content = f.read()
 
-    # Array to hold classes for the top 5 players
-    playerArray = []
+    text = content.split(',')
 
-    file1 = open("accounts\leaderboard.txt", "r")
+    users = []
+    scores = []
 
-    # Read players and scores from file
-    while True:
-        tempName = file1.readline()
-        tempScore = file1.readline()
-
-        if not tempName or not tempScore:
-            break
-        tempPlayer = playerAndScore(tempName, tempScore)
-        playerArray.append(tempPlayer)
-
-
+    # Grabbing each username and score and putting them in their
+    # appropriate arrays
+    for i in range(5):
+        if i % 2 == 0:
+            users.append(str(text[i]))
+        else:
+            scores.append(str(text[i]))
 
     while running:
 
@@ -361,26 +356,26 @@ def LeaderBoards():
         button_1 = pygame.Rect(175, 50, 150, 50)
 
         # Drawing the leaderboards onto the screen
-        draw_text("1. " + playerArray[0].player.strip(), button_font, black, screen, 136, 150) # old 175,50
-        draw_text(playerArray[0].score.strip(), button_font, black, screen, 540, 150)
+        draw_text("1. " + users[0], button_font, black, screen, 136, 150) # old 175,50
+        draw_text(scores[0], button_font, black, screen, 540, 150)
 
 
         button_2 = pygame.Rect(175, 90, 150, 50)
 
-        draw_text("2. " + playerArray[1].player.strip(), button_font, black, screen, 136, 200) # old 175,50
-        draw_text(playerArray[1].score.strip(), button_font, black, screen, 540, 200)
+        draw_text("2. " + users[1], button_font, black, screen, 136, 200) # old 175,50
+        draw_text(scores[1], button_font, black, screen, 540, 200)
 
 
-        draw_text("3. " + playerArray[2].player.strip(), button_font, black, screen, 136, 250) # old 175,50
-        draw_text(playerArray[2].score.strip(), button_font, black, screen, 540, 250)
+        draw_text("3. " + users[2], button_font, black, screen, 136, 250) # old 175,50
+        draw_text(scores[2], button_font, black, screen, 540, 250)
 
 
-        draw_text("4. " + playerArray[3].player.strip(), button_font, black, screen, 136, 300) # old 175,50
-        draw_text(playerArray[3].score.strip(), button_font, black, screen, 540, 300)
+        draw_text("4. " + users[3], button_font, black, screen, 136, 300) # old 175,50
+        draw_text(scores[3], button_font, black, screen, 540, 300)
 
 
-        draw_text("5. " + playerArray[4].player.strip(), button_font, black, screen, 136, 350) # old 175,50
-        draw_text(playerArray[4].score.strip(), button_font, black, screen, 540, 350)
+        draw_text("5. " + users[4], button_font, black, screen, 136, 350) # old 175,50
+        draw_text(scores[4], button_font, black, screen, 540, 350)
 
 
         # must reset the click variable before every event
@@ -1031,7 +1026,7 @@ def get_score(score, username):
 # Intent: This function updates the leaderboard.txt file
 #         to have the current high scores of the game based on account
 def update_leaderboards():
-    f = open("accounts/scores.txt")
+    f = open("accounts/scores.txt", 'r')
     
     content = f.read()
 

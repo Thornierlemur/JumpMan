@@ -195,7 +195,7 @@ def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""
                 player_location = []
                 player_location.append(int(player_rect.x))
                 player_location.append(int(player_rect.y))  
-                SaveGame(username, player_location, level_num, score)
+                SaveGame(username, player_location, level_num, str(score))
 
                 draw_text('SAVED!', title_font, black, screen, 285, 100)
 
@@ -204,8 +204,8 @@ def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""
             if click:
                 click_sound.play()
                 pygame.mixer.music.fadeout(1000)
-                main_menu(username)
-                get_score(score, username)     
+                #get_score(str(score), username)
+                main_menu(username)    
                 return False
 
         if mute_button.collidepoint((mx, my)):
@@ -361,8 +361,8 @@ def LeaderBoards():
         name1 = name1[:len(name1) - 2]
         score1 = score[0]
         score1 = score1[:len(score1) - 2]
-        draw_text("1. " + name1, button_font, black, screen, 136, 150) # old 175,50
-        draw_text(score1, button_font, black, screen, 540, 150)
+        draw_text("1. " + name[0], button_font, black, screen, 136, 150) # old 175,50
+        draw_text(score[0], button_font, black, screen, 540, 150)
 
 
         button_2 = pygame.Rect(175, 90, 150, 50)
@@ -371,32 +371,32 @@ def LeaderBoards():
         name2 = name2[:len(name2) - 2]
         score2 = score[1]
         score2 = score2[:len(score2) - 2]
-        draw_text("2. " + name1, button_font, black, screen, 136, 200) # old 175,50
-        draw_text(score2, button_font, black, screen, 540, 200)
+        draw_text("2. " + name[1], button_font, black, screen, 136, 200) # old 175,50
+        draw_text(score[1], button_font, black, screen, 540, 200)
 
 
         name3 = name[2]
         name3 = name3[:len(name3) - 2]
         score3 = score[2]
         score3 = score3[:len(score3) - 2]
-        draw_text("3. " + name3, button_font, black, screen, 136, 250) # old 175,50
-        draw_text(score3, button_font, black, screen, 540, 250)
+        draw_text("3. " + name[2], button_font, black, screen, 136, 250) # old 175,50
+        draw_text(score[2], button_font, black, screen, 540, 250)
 
 
         name4 = name[3]
         name4 = name4[:len(name4) - 2]
         score4 = score[3]
         score4 = score4[:len(score4) - 2]
-        draw_text("4. " + name4, button_font, black, screen, 136, 300) # old 175,50
-        draw_text(score4, button_font, black, screen, 540, 300)
+        draw_text("4. " + name[3], button_font, black, screen, 136, 300) # old 175,50
+        draw_text(score[3], button_font, black, screen, 540, 300)
 
 
         name5 = name[4]
         name5 = name5[:len(name5) - 2]
         score5 = score[4]
         score5 = score5[:len(score5) - 2]
-        draw_text("5. " + name5, button_font, black, screen, 136, 350) # old 175,50
-        draw_text(score5, button_font, black, screen, 540, 350)
+        draw_text("5. " + name[4], button_font, black, screen, 136, 350) # old 175,50
+        draw_text(score[4], button_font, black, screen, 540, 350)
 
 
         # must reset the click variable before every event
@@ -1033,7 +1033,7 @@ def get_score(score, username):
     f = open('accounts/scores.txt', 'r')
 
     name = []
-    score = []
+    scores = []
 
     length = len(content)
     length = length * 0.5
@@ -1041,25 +1041,34 @@ def get_score(score, username):
 
     for i in range(loop):
         name.append(f.readline())
-        score.append(f.readline())
+        scores.append(f.readline())
 
     print(name)
-    print(score)
+    print(scores)
 
     for i in range(len(name)):
-        if name[i] == username:
+        if name[i] == username+"\n":
             found = True
-            string = score[i]
-            actual_score = int(string[:len(string) - 2])
+            string = scores[i]
+            actual_score = string[:len(string) - 1]
 
-            actual_score += score
-            score[i] = str(actual_score)+"\n"
-            update_leaderboards()
-            return
+            print(actual_score)
+            points = int(actual_score)
+            points += int(score)
+
+            scores[i] = str(points)
+            scores[i] += "\n"
+
+            f.close()
+    
+    f3 = open('accounts/scores.txt', 'w')
+    for i in range(loop):
+        f3.write(name[i])
+        f3.write(scores[i])
     
     # If we make it to this line then that means the user was not in the file
     if found:
-        return
+        update_leaderboards()
     else:
         f2 = open('accounts/scores.txt', 'a')
         f2.write(str(username) + "\n" )
@@ -1092,7 +1101,12 @@ def update_leaderboards():
     # Bubble sort the scores
     for i in range(len(score) - 1):
         for j in range(len(score) - i - 1):
-            if score[j] > score[j + 1]:
+            score1 = score[j]
+            scores1 = int(score1[:len(score1) - 1])
+
+            score2 = score[j+1]
+            scores2 = int(score2[:len(score2) - 1])
+            if scores1 > scores2:
                 score[j], score[j+1] = score[j+1], score[j]
                 name[j], name[j+1] = name[j+1], name[j]
     
@@ -1100,10 +1114,10 @@ def update_leaderboards():
 
     if len(score) < 5:
         for i in range(len(score)):
-            f2.write(str(name[i]) + "\n")
-            f2.write(str(score[i]) + '\n')
+            f2.write(str(name[i]))
+            f2.write(str(score[i]))
     else:
         for i in range(5):
-            f2.write(str(name[i]) + "\n")
-            f2.write(str(score[i]) + '\n')
+            f2.write(str(name[i]))
+            f2.write(str(score[i]))
 

@@ -32,6 +32,10 @@ black = (0,0,0)
 Baby_Blue = (146,244,255)
 white = (255,255,255)
 
+# Mute Bool
+global Mute 
+Mute = False
+
 # Intent: Helper function that helps the programmer draw text
 #         to the screen.
 # Preconditions: All variables are passed legal data
@@ -139,21 +143,16 @@ def main_menu(username):
             pygame.display.update()
             mainClock.tick(60) # framerate of the game
 
-
-
 # intent: Creates pause menu when the "esc" key is pressed
 # Preconditions: All variables are assigned predetermined values to not cause error
 # Postcondition: The "Pause screen" will show up on the users screen while in game
 #                and allows for the user to do several operations if wanted.
 def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""):
-   
-
+    global Mute
     #Pause Menu image location and its rect
     myimage = pygame.image.load("images/pausemenu.png")
     imagerect = pygame.Rect(255, 215, 350, 240)
     click_sound = pygame.mixer.Sound('audio/click.wav')
-
-
     running = True
     click = False
 
@@ -211,12 +210,13 @@ def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""
         if mute_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
+                Mute = True
                 pygame.mixer.music.fadeout(1000)
 
         if unmute_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
-                #print("clicked")
+                Mute = False
                 pygame.mixer.music.play(-1)           
 
                
@@ -775,12 +775,14 @@ def level1(locations = [0,0], username = "", level_num = '1'):
     dirt_image = pygame.image.load('images/dirt.png')
 
     # Sounds
+    global Mute
     jump_sound = pygame.mixer.Sound('audio/jump.wav')
     grass_sounds = [pygame.mixer.Sound('audio/grass_0.wav'),pygame.mixer.Sound('audio/grass_1.wav')]
     grass_sounds[0].set_volume(0.2)
     grass_sounds[1].set_volume(0.2)
-    pygame.mixer.music.load('audio/music.wav')
-    pygame.mixer.music.play(-1)
+    if Mute == False:
+        pygame.mixer.music.load('audio/music.wav')
+        pygame.mixer.music.play(-1)
     grass_sound_timer = 0
 
     # This is for just right now

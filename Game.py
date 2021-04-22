@@ -325,12 +325,12 @@ def LeaderBoards():
     click = False
     running = True
 
-    f2 = open('accounts/scores.txt', 'r')
+    f2 = open('accounts/leaderboard.txt', 'r')
 
     content = f2.readlines()
     f2.close()
 
-    f = open('accounts/scores.txt', 'r')
+    f = open('accounts/leaderboard.txt', 'r')
 
     name = []
     score = []
@@ -357,26 +357,46 @@ def LeaderBoards():
         button_1 = pygame.Rect(175, 50, 150, 50)
 
         # Drawing the leaderboards onto the screen
-        draw_text("1. " + name[0], button_font, black, screen, 136, 150) # old 175,50
-        draw_text(score[0], button_font, black, screen, 540, 150)
+        name1 = name[0]
+        name1 = name1[:len(name1) - 2]
+        score1 = score[0]
+        score1 = score1[:len(score1) - 2]
+        draw_text("1. " + name1, button_font, black, screen, 136, 150) # old 175,50
+        draw_text(score1, button_font, black, screen, 540, 150)
 
 
         button_2 = pygame.Rect(175, 90, 150, 50)
 
-        draw_text("2. " + name[1], button_font, black, screen, 136, 200) # old 175,50
-        draw_text(score[1], button_font, black, screen, 540, 200)
+        name2 = name[1]
+        name2 = name2[:len(name2) - 2]
+        score2 = score[1]
+        score2 = score2[:len(score2) - 2]
+        draw_text("2. " + name1, button_font, black, screen, 136, 200) # old 175,50
+        draw_text(score2, button_font, black, screen, 540, 200)
 
 
-        draw_text("3. " + name[2], button_font, black, screen, 136, 250) # old 175,50
-        draw_text(score[2], button_font, black, screen, 540, 250)
+        name3 = name[2]
+        name3 = name3[:len(name3) - 2]
+        score3 = score[2]
+        score3 = score3[:len(score3) - 2]
+        draw_text("3. " + name3, button_font, black, screen, 136, 250) # old 175,50
+        draw_text(score3, button_font, black, screen, 540, 250)
 
 
-        draw_text("4. " + name[3], button_font, black, screen, 136, 300) # old 175,50
-        draw_text(score[3], button_font, black, screen, 540, 300)
+        name4 = name[3]
+        name4 = name4[:len(name4) - 2]
+        score4 = score[3]
+        score4 = score4[:len(score4) - 2]
+        draw_text("4. " + name4, button_font, black, screen, 136, 300) # old 175,50
+        draw_text(score4, button_font, black, screen, 540, 300)
 
 
-        draw_text("5. " + name[4], button_font, black, screen, 136, 350) # old 175,50
-        draw_text(score[4], button_font, black, screen, 540, 350)
+        name5 = name[4]
+        name5 = name5[:len(name5) - 2]
+        score5 = score[4]
+        score5 = score5[:len(score5) - 2]
+        draw_text("5. " + name5, button_font, black, screen, 136, 350) # old 175,50
+        draw_text(score5, button_font, black, screen, 540, 350)
 
 
         # must reset the click variable before every event
@@ -1003,6 +1023,8 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 #                username, holds the name of the player
 # Postconditions: score will be added to the score.txt file along with its respective user
 def get_score(score, username):
+    found = False
+
     f2 = open('accounts/scores.txt', 'r')
 
     content = f2.readlines()
@@ -1026,22 +1048,24 @@ def get_score(score, username):
 
     for i in range(len(name)):
         if name[i] == username:
+            found = True
             string = score[i]
             actual_score = int(string[:len(string) - 2])
 
             actual_score += score
             score[i] = str(actual_score)+"\n"
-
-            text[i+1] = str(player_score)
             update_leaderboards()
             return
     
     # If we make it to this line then that means the user was not in the file
-    f2 = open('accounts/scores.txt', 'a')
-    f2.write(str(username) + "\n" )
-    f2.write(str(score) + "\n")
-    f2.close()
-    update_leaderboards()
+    if found:
+        return
+    else:
+        f2 = open('accounts/scores.txt', 'a')
+        f2.write(str(username) + "\n" )
+        f2.write(str(score) + "\n")
+        f2.close()
+        update_leaderboards()
 
 
 # Intent: This function updates the leaderboard.txt file
@@ -1066,8 +1090,8 @@ def update_leaderboards():
         score.append(f.readline())
 
     # Bubble sort the scores
-    for i in range(len(scores) - 1):
-        for j in range(len(scores) - i - 1):
+    for i in range(len(score) - 1):
+        for j in range(len(score) - i - 1):
             if score[j] > score[j + 1]:
                 score[j], score[j+1] = score[j+1], score[j]
                 name[j], name[j+1] = name[j+1], name[j]

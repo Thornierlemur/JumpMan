@@ -96,7 +96,8 @@ def create_account_win():
     passw = createPassEnt.get()
     question = securityQuestionEnt.get()
 
-
+    # Read through the accounts .txt file to check if the username already exists.
+    # if the username exists, the file will not be edited and the function will exit.
     file1 = open("accounts\Accounts.txt", "r")
     while True:
       fileUname = file1.readline()

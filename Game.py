@@ -357,46 +357,47 @@ def LeaderBoards():
         button_1 = pygame.Rect(175, 50, 150, 50)
 
         # Drawing the leaderboards onto the screen
-        name1 = name[0]
-        name1 = name1[:len(name1) - 2]
-        score1 = score[0]
-        score1 = score1[:len(score1) - 2]
-        draw_text("1. " + name[0], button_font, black, screen, 136, 150) # old 175,50
-        draw_text(score[0], button_font, black, screen, 540, 150)
+        names1 = name[4]
+        name1 = names1[:len(names1) - 1]
+        scores1 = score[4]
+        score1 = scores1[:len(scores1) - 1]
+
+        draw_text("1. " + name1, button_font, black, screen, 136, 150) # old 175,50
+        draw_text(score1, button_font, black, screen, 540, 150)
 
 
         button_2 = pygame.Rect(175, 90, 150, 50)
 
-        name2 = name[1]
-        name2 = name2[:len(name2) - 2]
-        score2 = score[1]
-        score2 = score2[:len(score2) - 2]
-        draw_text("2. " + name[1], button_font, black, screen, 136, 200) # old 175,50
-        draw_text(score[1], button_font, black, screen, 540, 200)
+        names2 = name[3]
+        name2 = names2[:len(names2) - 1]
+        scores2 = score[3]
+        score2 = scores2[:len(scores2) - 1]
+        draw_text("2. " + name2, button_font, black, screen, 136, 200) # old 175,50
+        draw_text(score2, button_font, black, screen, 540, 200)
 
 
-        name3 = name[2]
-        name3 = name3[:len(name3) - 2]
-        score3 = score[2]
-        score3 = score3[:len(score3) - 2]
-        draw_text("3. " + name[2], button_font, black, screen, 136, 250) # old 175,50
-        draw_text(score[2], button_font, black, screen, 540, 250)
+        names3 = name[2]
+        name3 = names3[:len(names3) - 1]
+        scores3 = score[2]
+        score3 = scores3[:len(scores3) - 1]
+        draw_text("3. " + name3, button_font, black, screen, 136, 250) # old 175,50
+        draw_text(score3, button_font, black, screen, 540, 250)
 
 
-        name4 = name[3]
-        name4 = name4[:len(name4) - 2]
-        score4 = score[3]
-        score4 = score4[:len(score4) - 2]
-        draw_text("4. " + name[3], button_font, black, screen, 136, 300) # old 175,50
-        draw_text(score[3], button_font, black, screen, 540, 300)
+        names4 = name[3]
+        name4 = names4[:len(names4) - 1]
+        scores4 = score[3]
+        score4 = scores4[:len(scores4) - 1]
+        draw_text("4. " + name4, button_font, black, screen, 136, 300) # old 175,50
+        draw_text(score4, button_font, black, screen, 540, 300)
 
 
-        name5 = name[4]
-        name5 = name5[:len(name5) - 2]
-        score5 = score[4]
-        score5 = score5[:len(score5) - 2]
-        draw_text("5. " + name[4], button_font, black, screen, 136, 350) # old 175,50
-        draw_text(score[4], button_font, black, screen, 540, 350)
+        names5 = name[4]
+        name5 = names5[:len(names5) - 1]
+        scores5 = score[4]
+        score5 = scores5[:len(scores5) - 1]
+        draw_text("5. " + name5, button_font, black, screen, 136, 350) # old 175,50
+        draw_text(score5, button_font, black, screen, 540, 350)
 
 
         # must reset the click variable before every event
@@ -1105,6 +1106,8 @@ def update_leaderboards():
 
     f.close()
 
+    print(score)
+
     # Bubble sort the scores
     for i in range(loop - 1):
         for j in range(loop - i - 1):
@@ -1119,26 +1122,12 @@ def update_leaderboards():
     
     f3 = open("accounts/leaderboard.txt", "w")
 
-    #f3.write("test test test test \n")
-    # It makes it to ^
-
-    f3.write(str(name[0]))
-    f3.write(str(score[0]))
-    f3.write(str(name[1]))
-    f3.write(str(score[1]))
-    f3.write(str(name[2]))
-    f3.write(str(score[2]))
-    f3.write(str(name[3]))
-    f3.write(str(score[3]))
-    f3.write(str(name[4]))
-    f3.write(str(score[4]))
-
-    #if loop < 5:
-    #    for l in range(len(score)):
-    #        f3.write(str(name[l]))
-    #        f3.write(str(score[l]))
-    #else:
-    #    for f in range(5):
-    #        f3.write(str(name[f]))
-    #        f3.write(str(score[f]))
+    if loop < 5:
+        for l in range(len(score)):
+            f3.write(str(name[l]))
+            f3.write(str(score[l]))
+    else:
+        for f in range(5):
+            f3.write(str(name[f]))
+            f3.write(str(score[f]))
 

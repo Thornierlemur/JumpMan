@@ -1,0 +1,10 @@
+bob
+200
+Dave
+900
+christian
+1200
+john
+1300
+isaac
+10448

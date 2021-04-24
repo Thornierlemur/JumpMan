@@ -1063,11 +1063,14 @@ def get_score(score, username):
 
             f.close()
     
+    f.close()
+
     f3 = open('accounts/scores.txt', 'w')
     for i in range(loop):
         f3.write(name[i])
         f3.write(scores[i])
-    
+    f3.close()
+
     # If we make it to this line then that means the user was not in the file
     if found:
         update_leaderboards()
@@ -1100,26 +1103,42 @@ def update_leaderboards():
         name.append(f.readline())
         score.append(f.readline())
 
-    # Bubble sort the scores
-    for i in range(len(score) - 1):
-        for j in range(len(score) - i - 1):
-            score1 = score[j]
-            scores1 = int(score1[:len(score1) - 1])
+    f.close()
 
-            score2 = score[j+1]
-            scores2 = int(score2[:len(score2) - 1])
-            if scores1 > scores2:
+    # Bubble sort the scores
+    for i in range(loop - 1):
+        for j in range(loop - i - 1):
+            first_score = score[j]
+            score1 = int(first_score[:len(first_score) - 1])
+
+            second_score = score[j+1]
+            score2 = int(second_score[:len(second_score) - 1])
+            if score1 > score2:
                 score[j], score[j+1] = score[j+1], score[j]
                 name[j], name[j+1] = name[j+1], name[j]
     
-    f2 = open("accounts/leaderboard.txt", "w")
+    f3 = open("accounts/leaderboard.txt", "w")
 
-    if len(score) < 5:
-        for i in range(len(score)):
-            f2.write(str(name[i]))
-            f2.write(str(score[i]))
-    else:
-        for i in range(5):
-            f2.write(str(name[i]))
-            f2.write(str(score[i]))
+    #f3.write("test test test test \n")
+    # It makes it to ^
+
+    f3.write(str(name[0]))
+    f3.write(str(score[0]))
+    f3.write(str(name[1]))
+    f3.write(str(score[1]))
+    f3.write(str(name[2]))
+    f3.write(str(score[2]))
+    f3.write(str(name[3]))
+    f3.write(str(score[3]))
+    f3.write(str(name[4]))
+    f3.write(str(score[4]))
+
+    #if loop < 5:
+    #    for l in range(len(score)):
+    #        f3.write(str(name[l]))
+    #        f3.write(str(score[l]))
+    #else:
+    #    for f in range(5):
+    #        f3.write(str(name[f]))
+    #        f3.write(str(score[f]))
 

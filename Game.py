@@ -357,9 +357,9 @@ def LeaderBoards():
         button_1 = pygame.Rect(175, 50, 150, 50)
 
         # Drawing the leaderboards onto the screen
-        names1 = name[4]
+        names1 = name[0]
         name1 = names1[:len(names1) - 1]
-        scores1 = score[4]
+        scores1 = score[0]
         score1 = scores1[:len(scores1) - 1]
 
         draw_text("1. " + name1, button_font, black, screen, 136, 150) # old 175,50
@@ -368,9 +368,9 @@ def LeaderBoards():
 
         button_2 = pygame.Rect(175, 90, 150, 50)
 
-        names2 = name[3]
+        names2 = name[1]
         name2 = names2[:len(names2) - 1]
-        scores2 = score[3]
+        scores2 = score[1]
         score2 = scores2[:len(scores2) - 1]
         draw_text("2. " + name2, button_font, black, screen, 136, 200) # old 175,50
         draw_text(score2, button_font, black, screen, 540, 200)
@@ -1116,7 +1116,7 @@ def update_leaderboards():
 
             second_score = score[j+1]
             score2 = int(second_score[:len(second_score) - 1])
-            if score1 > score2:
+            if score1 < score2:
                 score[j], score[j+1] = score[j+1], score[j]
                 name[j], name[j+1] = name[j+1], name[j]
     

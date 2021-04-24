@@ -426,7 +426,6 @@ def SaveGame(user = "", location = [0,0], level="", score = ""):
     # open a file named the username.
     # If the file does not exist it will create it
     # If the file already exists, it truncates the previous version
-    #f = open(user + '.txt', 'w+')
     f = open("accounts/savefiles/" + user + ".txt", "w+")
     # Storing the values of the player position
     x = str(location[0])
@@ -522,6 +521,7 @@ animation_frames = {}
 # Intent: Helper function to load in the character animations
 # Preconditions: path, frame_durations are always passed legal values that correspond
 #                to each of the specific animations for the character
+# Postcondition: returns the animation frame the character is currently in
 def load_animation(path, frame_durations):
     global animation_frames
     animation_name = path.split('/')[-1]
@@ -550,6 +550,10 @@ def change_action(action_var,frame,new_value):
         frame = 0
     return action_var,frame
 
+# Intent: Once the user reaches the end of a level a "Continue screen" is prompted.
+#         The continue screen allows for the player to continue to the next level or exit the game and return to the main menu
+#
+# Preconditions: All variables are passed legal values (this has been thoroughly tested)
 def continue_screen(username, level, score):
     # click variable to detect when the user clicks a button
     click = False
@@ -626,6 +630,7 @@ def continue_screen(username, level, score):
             mainClock.tick(60) # framerate of the game
 
 # Intent: Displays to the user the end screen for beating the game
+# Precondition: The parameters passed are legal (This has been tested thoroughly)
 def end_screen(username):
     # click variable to detect when the user clicks a button
     click = False
@@ -739,6 +744,7 @@ def death_screen(username, level):
 
 
 # Intent: Return a random RGB color from 0 - 255
+# Postcondition: The function returns a color value between 0 - 255
 def random_color():
     random_color_value = random.randrange(35, 255, 3)
     return random_color_value

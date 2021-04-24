@@ -1046,16 +1046,14 @@ def get_score(score, username):
         name.append(f.readline())
         scores.append(f.readline())
 
-    print(name)
-    print(scores)
-
+    # Finds the user in the name array, if the user exists we then
+    # add their new score to their total score.
     for i in range(len(name)):
         if name[i] == username+"\n":
             found = True
             string = scores[i]
             actual_score = string[:len(string) - 1]
 
-            print(actual_score)
             points = int(actual_score)
             points += int(score)
 
@@ -1066,16 +1064,19 @@ def get_score(score, username):
     
     f.close()
 
+    # Rewriting scores.txt file with the updated scores.txt
     f3 = open('accounts/scores.txt', 'w')
     for i in range(loop):
         f3.write(name[i])
         f3.write(scores[i])
     f3.close()
 
-    # If we make it to this line then that means the user was not in the file
+    # If the user was found we update the leaderboards()
     if found:
         update_leaderboards()
     else:
+        # This is the case when the user was not found.
+        # in that case we just append their username and score to scores.txt
         f2 = open('accounts/scores.txt', 'a')
         f2.write(str(username) + "\n" )
         f2.write(str(score) + "\n")
@@ -1108,7 +1109,7 @@ def update_leaderboards():
 
     print(score)
 
-    # Bubble sort the scores
+    # Bubble sort the score array
     for i in range(loop - 1):
         for j in range(loop - i - 1):
             first_score = score[j]
@@ -1122,6 +1123,7 @@ def update_leaderboards():
     
     f3 = open("accounts/leaderboard.txt", "w")
 
+    # Adding the top 5 scores into leaderboard.txt
     if loop < 5:
         for l in range(len(score)):
             f3.write(str(name[l]))

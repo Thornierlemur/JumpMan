@@ -357,46 +357,47 @@ def LeaderBoards():
         button_1 = pygame.Rect(175, 50, 150, 50)
 
         # Drawing the leaderboards onto the screen
-        name1 = name[0]
-        name1 = name1[:len(name1) - 2]
-        score1 = score[0]
-        score1 = score1[:len(score1) - 2]
-        draw_text("1. " + name[0], button_font, black, screen, 136, 150) # old 175,50
-        draw_text(score[0], button_font, black, screen, 540, 150)
+        names1 = name[0]
+        name1 = names1[:len(names1) - 1]
+        scores1 = score[0]
+        score1 = scores1[:len(scores1) - 1]
+
+        draw_text("1. " + name1, button_font, black, screen, 136, 150) # old 175,50
+        draw_text(score1, button_font, black, screen, 540, 150)
 
 
         button_2 = pygame.Rect(175, 90, 150, 50)
 
-        name2 = name[1]
-        name2 = name2[:len(name2) - 2]
-        score2 = score[1]
-        score2 = score2[:len(score2) - 2]
-        draw_text("2. " + name[1], button_font, black, screen, 136, 200) # old 175,50
-        draw_text(score[1], button_font, black, screen, 540, 200)
+        names2 = name[1]
+        name2 = names2[:len(names2) - 1]
+        scores2 = score[1]
+        score2 = scores2[:len(scores2) - 1]
+        draw_text("2. " + name2, button_font, black, screen, 136, 200) # old 175,50
+        draw_text(score2, button_font, black, screen, 540, 200)
 
 
-        name3 = name[2]
-        name3 = name3[:len(name3) - 2]
-        score3 = score[2]
-        score3 = score3[:len(score3) - 2]
-        draw_text("3. " + name[2], button_font, black, screen, 136, 250) # old 175,50
-        draw_text(score[2], button_font, black, screen, 540, 250)
+        names3 = name[2]
+        name3 = names3[:len(names3) - 1]
+        scores3 = score[2]
+        score3 = scores3[:len(scores3) - 1]
+        draw_text("3. " + name3, button_font, black, screen, 136, 250) # old 175,50
+        draw_text(score3, button_font, black, screen, 540, 250)
 
 
-        name4 = name[3]
-        name4 = name4[:len(name4) - 2]
-        score4 = score[3]
-        score4 = score4[:len(score4) - 2]
-        draw_text("4. " + name[3], button_font, black, screen, 136, 300) # old 175,50
-        draw_text(score[3], button_font, black, screen, 540, 300)
+        names4 = name[3]
+        name4 = names4[:len(names4) - 1]
+        scores4 = score[3]
+        score4 = scores4[:len(scores4) - 1]
+        draw_text("4. " + name4, button_font, black, screen, 136, 300) # old 175,50
+        draw_text(score4, button_font, black, screen, 540, 300)
 
 
-        name5 = name[4]
-        name5 = name5[:len(name5) - 2]
-        score5 = score[4]
-        score5 = score5[:len(score5) - 2]
-        draw_text("5. " + name[4], button_font, black, screen, 136, 350) # old 175,50
-        draw_text(score[4], button_font, black, screen, 540, 350)
+        names5 = name[4]
+        name5 = names5[:len(names5) - 1]
+        scores5 = score[4]
+        score5 = scores5[:len(scores5) - 1]
+        draw_text("5. " + name5, button_font, black, screen, 136, 350) # old 175,50
+        draw_text(score5, button_font, black, screen, 540, 350)
 
 
         # must reset the click variable before every event
@@ -425,7 +426,6 @@ def SaveGame(user = "", location = [0,0], level="", score = ""):
     # open a file named the username.
     # If the file does not exist it will create it
     # If the file already exists, it truncates the previous version
-    #f = open(user + '.txt', 'w+')
     f = open("accounts/savefiles/" + user + ".txt", "w+")
     # Storing the values of the player position
     x = str(location[0])
@@ -521,6 +521,7 @@ animation_frames = {}
 # Intent: Helper function to load in the character animations
 # Preconditions: path, frame_durations are always passed legal values that correspond
 #                to each of the specific animations for the character
+# Postcondition: returns the animation frame the character is currently in
 def load_animation(path, frame_durations):
     global animation_frames
     animation_name = path.split('/')[-1]
@@ -549,6 +550,10 @@ def change_action(action_var,frame,new_value):
         frame = 0
     return action_var,frame
 
+# Intent: Once the user reaches the end of a level a "Continue screen" is prompted.
+#         The continue screen allows for the player to continue to the next level or exit the game and return to the main menu
+#
+# Preconditions: All variables are passed legal values (this has been thoroughly tested)
 def continue_screen(username, level, score):
     # click variable to detect when the user clicks a button
     click = False
@@ -625,7 +630,8 @@ def continue_screen(username, level, score):
             mainClock.tick(60) # framerate of the game
 
 # Intent: Displays to the user the end screen for beating the game
-def end_screen(username):
+# Precondition: The parameters passed are legal (This has been tested thoroughly)
+def end_screen(username, score):
     # click variable to detect when the user clicks a button
     click = False
     running = True
@@ -649,6 +655,7 @@ def end_screen(username):
         # checking for collisions
         if button_1.collidepoint((mx, my)):
             if click:
+                get_score(score, username)
                 main_menu(username)
 
         # renders the buttons
@@ -673,7 +680,7 @@ def end_screen(username):
 #         prompting the user if they want to continue or exit to the main menu
 # Preconditions: User has fallen off the map
 # Postconditions: User restarts level or returns to the main menu
-def death_screen(username, level):
+def death_screen(username, level, score):
     # click variable to detect when the user clicks a button
     click = False
     running = True
@@ -697,6 +704,7 @@ def death_screen(username, level):
         # checking for collisions
         if button_1.collidepoint((mx, my)):
             if click:
+                get_score(score, username)
                 location = [0,0]
                 if level == '1':
                     level1(location, username, '1')
@@ -710,6 +718,7 @@ def death_screen(username, level):
                     level1(location, username, '5')
         if button_2.collidepoint((mx, my)):
             if click:
+                get_score(score, username)
                 main_menu(username)
 
         # renders the buttons
@@ -738,6 +747,7 @@ def death_screen(username, level):
 
 
 # Intent: Return a random RGB color from 0 - 255
+# Postcondition: The function returns a color value between 0 - 255
 def random_color():
     random_color_value = random.randrange(35, 255, 3)
     return random_color_value
@@ -977,35 +987,35 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                 continue_screen(username, level_num, str(score))
             elif player_rect.y >= 226:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
         elif level_num == '2':
             if player_rect.x >= 4721 and player_rect.y == 99:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
         elif level_num == '3':
             if player_rect.x >= 4557 and player_rect.y == 67:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
         elif level_num == '4':
             if player_rect.x >= 4741 and player_rect.y == 291:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
         elif level_num == '5':
             if player_rect.x >= 4699 and player_rect.y == 35:
                 pygame.mixer.music.fadeout(1000)
-                end_screen(username)
+                end_screen(username, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
             
         
         # changes the size of my smaller image to be the size
@@ -1045,16 +1055,14 @@ def get_score(score, username):
         name.append(f.readline())
         scores.append(f.readline())
 
-    print(name)
-    print(scores)
-
+    # Finds the user in the name array, if the user exists we then
+    # add their new score to their total score.
     for i in range(len(name)):
         if name[i] == username+"\n":
             found = True
             string = scores[i]
             actual_score = string[:len(string) - 1]
 
-            print(actual_score)
             points = int(actual_score)
             points += int(score)
 
@@ -1063,15 +1071,21 @@ def get_score(score, username):
 
             f.close()
     
+    f.close()
+
+    # Rewriting scores.txt file with the updated scores.txt
     f3 = open('accounts/scores.txt', 'w')
     for i in range(loop):
         f3.write(name[i])
         f3.write(scores[i])
-    
-    # If we make it to this line then that means the user was not in the file
+    f3.close()
+
+    # If the user was found we update the leaderboards()
     if found:
         update_leaderboards()
     else:
+        # This is the case when the user was not found.
+        # in that case we just append their username and score to scores.txt
         f2 = open('accounts/scores.txt', 'a')
         f2.write(str(username) + "\n" )
         f2.write(str(score) + "\n")
@@ -1100,26 +1114,31 @@ def update_leaderboards():
         name.append(f.readline())
         score.append(f.readline())
 
-    # Bubble sort the scores
-    for i in range(len(score) - 1):
-        for j in range(len(score) - i - 1):
-            score1 = score[j]
-            scores1 = int(score1[:len(score1) - 1])
+    f.close()
 
-            score2 = score[j+1]
-            scores2 = int(score2[:len(score2) - 1])
-            if scores1 > scores2:
+    print(score)
+
+    # Bubble sort the score array
+    for i in range(loop - 1):
+        for j in range(loop - i - 1):
+            first_score = score[j]
+            score1 = int(first_score[:len(first_score) - 1])
+
+            second_score = score[j+1]
+            score2 = int(second_score[:len(second_score) - 1])
+            if score1 < score2:
                 score[j], score[j+1] = score[j+1], score[j]
                 name[j], name[j+1] = name[j+1], name[j]
     
-    f2 = open("accounts/leaderboard.txt", "w")
+    f3 = open("accounts/leaderboard.txt", "w")
 
-    if len(score) < 5:
-        for i in range(len(score)):
-            f2.write(str(name[i]))
-            f2.write(str(score[i]))
+    # Adding the top 5 scores into leaderboard.txt
+    if loop < 5:
+        for l in range(len(score)):
+            f3.write(str(name[l]))
+            f3.write(str(score[l]))
     else:
-        for i in range(5):
-            f2.write(str(name[i]))
-            f2.write(str(score[i]))
+        for f in range(5):
+            f3.write(str(name[f]))
+            f3.write(str(score[f]))
 

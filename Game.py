@@ -631,7 +631,7 @@ def continue_screen(username, level, score):
 
 # Intent: Displays to the user the end screen for beating the game
 # Precondition: The parameters passed are legal (This has been tested thoroughly)
-def end_screen(username):
+def end_screen(username, score):
     # click variable to detect when the user clicks a button
     click = False
     running = True
@@ -655,6 +655,7 @@ def end_screen(username):
         # checking for collisions
         if button_1.collidepoint((mx, my)):
             if click:
+                get_score(score, username)
                 main_menu(username)
 
         # renders the buttons
@@ -679,7 +680,7 @@ def end_screen(username):
 #         prompting the user if they want to continue or exit to the main menu
 # Preconditions: User has fallen off the map
 # Postconditions: User restarts level or returns to the main menu
-def death_screen(username, level):
+def death_screen(username, level, score):
     # click variable to detect when the user clicks a button
     click = False
     running = True
@@ -703,6 +704,7 @@ def death_screen(username, level):
         # checking for collisions
         if button_1.collidepoint((mx, my)):
             if click:
+                get_score(score, username)
                 location = [0,0]
                 if level == '1':
                     level1(location, username, '1')
@@ -716,6 +718,7 @@ def death_screen(username, level):
                     level1(location, username, '5')
         if button_2.collidepoint((mx, my)):
             if click:
+                get_score(score, username)
                 main_menu(username)
 
         # renders the buttons
@@ -984,35 +987,35 @@ def level1(locations = [0,0], username = "", level_num = '1'):
                 continue_screen(username, level_num, str(score))
             elif player_rect.y >= 226:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
         elif level_num == '2':
             if player_rect.x >= 4721 and player_rect.y == 99:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
         elif level_num == '3':
             if player_rect.x >= 4557 and player_rect.y == 67:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
         elif level_num == '4':
             if player_rect.x >= 4741 and player_rect.y == 291:
                 pygame.mixer.music.fadeout(1000)
                 continue_screen(username, level_num, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
         elif level_num == '5':
             if player_rect.x >= 4699 and player_rect.y == 35:
                 pygame.mixer.music.fadeout(1000)
-                end_screen(username)
+                end_screen(username, str(score))
             elif player_rect.y >= 333:
                 pygame.mixer.music.fadeout(1000)
-                death_screen(username, level_num)
+                death_screen(username, level_num, score)
             
         
         # changes the size of my smaller image to be the size

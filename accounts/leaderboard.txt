@@ -1,10 +1,10 @@
 isaac
 22902
+C
+19674
 john
 1300
 christian
 1200
 yes
 1178
-Dave
-900

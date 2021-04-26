@@ -32,6 +32,17 @@ def log_in_win():
 
     username = userNameEnt.get()
     password = passEnt.get()
+
+    if(username == "" or password == ""):
+      oversizedEntryLabel.place_forget()
+      loginFailureLabel.place_forget()
+      emptyEntryLabel.place(x = 110, y = 205)
+      return
+    if(len(username) > 15 or len(password) > 15):
+      emptyEntryLabel.place_forget()
+      loginFailureLabel.place_forget()
+      oversizedEntryLabel.place(x = 110, y = 205)
+      return
     
     # Appends new line character to the end of variables to match structure on file
     username = username + "\n"
@@ -54,8 +65,12 @@ def log_in_win():
 
     # Username was not found
     if(readName == ""):
+        oversizedEntryLabel.place_forget()
+        emptyEntryLabel.place_forget()
+        loginFailureLabel.place_forget()
         userNameNotFound = tk.Label(text = "No such username")
         userNameNotFound.place(x = 110, y = 205)
+        return
 
     # Username was found 
     else:
@@ -68,13 +83,18 @@ def log_in_win():
         logWin.destroy()
        
       else:
-        loginFailureLabel = tk.Label(text = "Incorect Password"); loginFailureLabel.place(x = 110, y = 205)
+        oversizedEntryLabel.place_forget()
+        emptyEntryLabel.place_forget()
+        loginFailureLabel.place(x = 110, y = 205)
 
   # Setting up font and window including labels, buttons, and entries
   fontStyle = tkFont.Font(family = "Lucida Grande", size = 25)
   logInLabel = tk.Label(text = "JumpMan log in", font = fontStyle); logInLabel.place(x = 20, y = 10)
   labelU = tk.Label(text = "Username:"); labelU.place(x = 20, y = 60)
   labelP = tk.Label(text = "Password:"); labelP.place(x = 20, y = 130)
+  emptyEntryLabel = tk.Label(text = "Please fill all entries")
+  oversizedEntryLabel = tk.Label(text = "No entry longer than 15 characters, please")
+  loginFailureLabel = tk.Label(text = "Incorect Password")
   acctButton = tk.Button(text = "Create an account", command = create_account_win, width = 20, bg = "lightblue"); acctButton.place(x = 430, y = 230)
   loginButton = tk.Button(text = "Sign in", command = sign_in, width = 10, bg = "orange"); loginButton.place(x = 20, y = 200)
   changePassButton = tk.Button(text = "Change password?", command = change_password_window, width = 20, bg = "lightblue"); changePassButton.place(x = 430, y = 200)
@@ -135,6 +155,7 @@ def create_account_win():
       successLabel.place(x = 20, y = 230)
       newWin.destroy()
       makeAcctButton.destroy()
+      creationSuccessLabel.place(x = 445, y = 220)
     
   #New window for account creation which goes on top of login window
   newWin = Toplevel(logWin)
@@ -151,6 +172,7 @@ def create_account_win():
   tooLongLabel = tk.Label(newWin, text = "No entry longer than 15 characters, please")
   uNameExistsLabel = tk.Label(newWin, text = "Username already exists")
   entryEmpty = tk.Label(newWin, text = "Please fill all entries")
+  creationSuccessLabel = tk.Label(newWin, text = "Account created Successfully")
 
   createNameEnt = tk.Entry(newWin, width = 12, font = fontStyle); createNameEnt.place(x = 20, y = 80)
   createPassEnt = tk.Entry(newWin, width = 12, font = fontStyle, show = '*'); createPassEnt.place(x = 20, y = 150)

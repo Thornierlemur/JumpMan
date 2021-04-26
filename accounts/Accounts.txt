@@ -1,5 +1,5 @@
 C
-12345
+123
 Take on me
 joe
 1
@@ -7,6 +7,15 @@ sandstorm
 isaac
 12345
 yes
+<<<<<<< HEAD
+Star
+moomoo
+zoop
+=======
 yes
 yes
 yes
+>>>>>>> 7a5220b7de085ac49415d19bf32fa3bcdea73d64
+Ted
+12345
+Frenden

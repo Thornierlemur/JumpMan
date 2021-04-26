@@ -762,7 +762,7 @@ def random_color():
 def level1(locations = [0,0], username = "", level_num = '1'):
 
     # Keeps track of the players score
-    score = 0
+    score = 10000
 
     screen.fill(black)
     
@@ -836,7 +836,8 @@ def level1(locations = [0,0], username = "", level_num = '1'):
 
         # While the player is alive their score will be 
         # incrementing by 5's
-        score += 1
+        if score > 0:
+            score -= 1
 
         # red, green, blue
         # display.fill((146,244,255))

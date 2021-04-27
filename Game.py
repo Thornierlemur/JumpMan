@@ -184,13 +184,11 @@ def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""
         if continue_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
-                #print("clicked")
                 return True
 
         if save_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
-                #print("clicked")
                 player_location = []
                 player_location.append(int(player_rect.x))
                 player_location.append(int(player_rect.y))  
@@ -227,6 +225,12 @@ def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
+            if event.type == KEYDOWN:
+                 if event.key == K_ESCAPE:
+                     return True
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
 
         pygame.display.update()
         mainClock.tick(60)

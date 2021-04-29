@@ -13,3 +13,15 @@ zoop
 Ted
 12345
 Frenden
+Chris
+12345
+/accounts/j.txt
+Chriss
+1234
+/audio/jump.wav
+Teddy
+123
+   
+Mom
+123
+Kirby

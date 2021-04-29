@@ -38,7 +38,7 @@ def log_in_win():
     username = userNameEnt.get()
     password = passEnt.get()
 
-    if(username == "" or password == ""):
+    if(len(username.strip()) == 0 or len(password.strip()) == 0):
       oversizedEntryLabel.place_forget()
       loginFailureLabel.place_forget()
       emptyEntryLabel.place(x = 110, y = 205)
@@ -148,7 +148,7 @@ def create_account_win():
       tooLongLabel.place(x = 240, y = 90)
 
     # Condition for if create account is clicked with one or both entries empty
-    elif(name == "" or passw == "" or question == ""):
+    elif(len(name.strip()) == 0 or len(passw.strip()) == 0 or len(question.strip()) == 0):
       tooLongLabel.place_forget()
       entryEmpty.place(x = 240, y = 90)
 
@@ -215,7 +215,7 @@ def change_password_window():
     answ = questionEnt.get()
 
     # Check for empty entries
-    if(uName == "" or passw == "" or newPass == "" or confirmPass == "" or answ == ""):
+    if(len(uName.strip()) == 0 or len(passw.strip()) == 0 or len(newPass.strip()) == 0 or len(confirmPass.strip()) == 0 or len(answ.strip()) == 0):
       hideAllLabels()
       labelEmptyEntry.place(x = 360, y = 40)
       return

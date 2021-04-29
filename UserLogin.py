@@ -6,6 +6,10 @@ import time
 
 name = ""
 
+#Hold the the count of attempts the user attempts to login
+global loginAttempts
+loginAttempts = 0
+
 # Intent: Function to center Tkinter window in center of the currently focused screen
 # Preconditions: Parameters root = window, w = width, h = hieght 
 # Postcondition: Display a window in the center of screen
@@ -29,6 +33,7 @@ def log_in_win():
 
   # Intent: Define function for getting username and password from entries and handling errors that may occur
   def sign_in():
+    global loginAttempts
 
     username = userNameEnt.get()
     password = passEnt.get()
@@ -83,9 +88,14 @@ def log_in_win():
         logWin.destroy()
        
       else:
+        loginAttempts += 1
         oversizedEntryLabel.place_forget()
         emptyEntryLabel.place_forget()
         loginFailureLabel.place(x = 110, y = 205)
+        # If the user fails to correctly enter the password five times then terminate the program
+        if(loginAttempts > 4):
+            logWin.destroy()
+
 
   # Setting up font and window including labels, buttons, and entries
   fontStyle = tkFont.Font(family = "Lucida Grande", size = 25)

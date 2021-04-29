@@ -184,13 +184,11 @@ def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""
         if continue_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
-                #print("clicked")
                 return True
 
         if save_button.collidepoint((mx, my)):
             if click:
                 click_sound.play()
-                #print("clicked")
                 player_location = []
                 player_location.append(int(player_rect.x))
                 player_location.append(int(player_rect.y))  
@@ -227,6 +225,12 @@ def pause_game_screen(username = "", locations = [0,0], level_num="", score = ""
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
+            if event.type == KEYDOWN:
+                 if event.key == K_ESCAPE:
+                     return True
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
 
         pygame.display.update()
         mainClock.tick(60)
@@ -445,35 +449,31 @@ def LoadGame(user = ""):
 
     #checks to see if fileexists
     fileexists = path.exists("accounts/savefiles/" + user + ".txt")
+
     if fileexists:
-            try:
-                f = open("accounts/savefiles/" + user + ".txt", "r+")
-                contents = f.read()
+        f = open("accounts/savefiles/" + user + ".txt", "r+")
+        contents = f.read()
 
-                text = contents.split(',')
+        text = contents.split(',')
 
-                # getting the location of the player
-                location = []
-                location.append(int(text[0]))
-                location.append(int(text[1]))
+        # getting the location of the player
+        location = []
+        location.append(int(text[0]))
+        location.append(int(text[1]))
 
-                #Getting the level the player saved in
-                level = int(text[2])
+        #Getting the level the player saved in
+        level = int(text[2])
 
-                if level == 1:
-                    level1(location, user, '1')
-                elif level == 2:
-                    level1(location, user, '2')
-                elif level == 3:
-                    level1(location, user, '3')
-                elif level == 4:
-                    level1(location, user, '4')
-                elif level == 5:
-                    level1(location, user, '5')
-            except IOError:
-                    return
-            finally:
-                f.close()
+        if level == 1:
+            level1(location, user, '1')
+        elif level == 2:
+            level1(location, user, '2')
+        elif level == 3:
+            level1(location, user, '3')
+        elif level == 4:
+            level1(location, user, '4')
+        elif level == 5:
+            level1(location, user, '5')
     else:
         location = [0,0]
         level1(location, user, '1')

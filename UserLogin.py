@@ -253,6 +253,7 @@ def change_password_window():
        file2.writelines(fullList)
        file2.close()
        changeButton.destroy()
+       changeSuccessLabel = tk.Label(newPassWin, text = "Password change successful"); changeSuccessLabel.place(x = 440, y = 250)
 
       # Incorrect entry
       else:
